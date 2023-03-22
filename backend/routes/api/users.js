@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/register', async (req, res, next) => {
+  debugger
   const user = await User.findOne({
     $or: [{ email: req.body.email }, { username: req.body.username }, {phoneNumber: req.body.phoneNumber}]
   });
@@ -35,7 +36,9 @@ router.post('/register', async (req, res, next) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    phoneNumber: req.body.phoneNumber
+    phoneNumber: req.body.phoneNumber,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
   });
 
   bcrypt.genSalt(10, (err, salt) => {
