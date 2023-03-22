@@ -69,13 +69,35 @@ router.delete(
   "/:id",
   //check to see if correct file type: do this in validations?
 
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }), //test with jwt auth
   (req, res) => {
     Resume.findOneAndDelete(req.params.id)
-    .then((resume) => res.json(resume))
-    .catch((err) =>
-      res.status(404).json({ noresumefound: "No resume found with that ID" })
-    );
+      .then((resume) => res.json({ msg: "deleted successfully" }))
+      .catch((err) =>
+        res.status(404).json({ noresumefound: "Unable to delete" })
+      );
+  }
+);
+
+//edit resume
+router.put(
+  "/:id",
+
+  passport.authenticate("jwt", { session: false }), //test with jwt auth
+  (req, res) => {
+    //validate
+    const { errors, isValid } = validateResumeInput(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    //find and update
+    Resume.findByIdAndUpdate(req.params.id, req.body)
+      .then((resume) => res.json({ msg: "updated successfully" }))
+      .catch((err) =>
+        res.status(404).json({ noresumefound: "Unable to update" })
+      );
   }
 );
 
