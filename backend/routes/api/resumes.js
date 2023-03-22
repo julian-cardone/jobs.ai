@@ -6,7 +6,7 @@ const passport = require('passport');
 //resume model
 const Resume = require('../../models/Resume');
 //resume validtor
-// const validateResumeInput = require('../../validation/resumes');
+const validateResumeInput = require('../../validation/resumes');
 
 //ROUTES:
 //resume get all route
@@ -38,39 +38,29 @@ router.get('/:id', (req, res) => {
 });
 
 //resume upload route
-router.post('/upload', (req, res) => {
+router.post('/', (req, res) => {
   //check to see if correct file type: do this in validations?
+
+  passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+    const { errors, isValid } = validateResumeInput(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
   //if good, then create new Resume
   const newResume = new Resume({
     title: req.body.title,
-    userId: req.body.userId, 
+    userId: req.user.id, //test this out
     file: req.body.file //how will this come in ? as a string?
   })
 
   newResume.save()
   .then(resume => res.json(resume))
-  .catch(err => console.log(err));
+  }
 
 })
-
-// router.post('/',
-//     passport.authenticate('jwt', { session: false }),
-//     (req, res) => {
-//       const { errors, isValid } = validateTweetInput(req.body);
-  
-//       if (!isValid) {
-//         return res.status(400).json(errors);
-//       }
-  
-//       const newTweet = new Tweet({
-//         text: req.body.text,
-//         user: req.user.id
-//       });
-  
-//       newTweet.save().then(tweet => res.json(tweet));
-//     }
-//   );
 
 //+delete route
 
