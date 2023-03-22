@@ -1,4 +1,7 @@
 require('./models/User');
+require('./models/User');
+require('./config/passport'); // <-- ADD THIS LINE
+const passport = require('passport')
 const usersRouter = require('./routes/api/users');
 var express = require('express');
 var path = require('path');
@@ -22,5 +25,6 @@ app.use(bodyParser.json());
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/resumes', resumesRouter)
+app.use(passport.initialize());
 
 module.exports = app;
