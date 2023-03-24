@@ -7,6 +7,8 @@ const passport = require('passport');
 const { loginUser } = require('../../config/passport');
 const { loginUser, restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
+const validateRegisterInput = require('../../validations/register');
+const validateLoginInput = require('../../validations/login');
 
 
 /* GET users listing. */
@@ -14,7 +16,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/register', async (req, res, next) => {
+router.post('/register', validateLoginInput, async (req, res, next) => {
   debugger
   const user = await User.findOne({
     $or: [{ email: req.body.email }, { username: req.body.username }, {phoneNumber: req.body.phoneNumber}]
@@ -63,7 +65,7 @@ router.post('/register', async (req, res, next) => {
 
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', validateLoginInput, async (req, res, next) => {
   passport.authenticate('local', async function(err, user) {
     if (err) return next(err);
     if (!user) {
