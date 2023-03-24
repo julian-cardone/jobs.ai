@@ -1,3 +1,8 @@
+require('./models/User');
+require('./models/User');
+require('./config/passport'); // <-- ADD THIS LINE
+const passport = require('passport')
+const usersRouter = require('./routes/api/users');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -5,7 +10,6 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/api/users');
 const resumesRouter = require('./routes/api/resumes');
 
 var app = express();
@@ -21,5 +25,6 @@ app.use(bodyParser.json());
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/resumes', resumesRouter)
+app.use(passport.initialize());
 
 module.exports = app;
