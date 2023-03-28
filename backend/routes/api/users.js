@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const passport = require('passport');
 const { loginUser } = require('../../config/passport');
-const { loginUser, restoreUser } = require('../../config/passport');
+const { restoreUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
-const validateRegisterInput = require('../../validations/register');
-const validateLoginInput = require('../../validations/login');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 
 /* GET users listing. */
