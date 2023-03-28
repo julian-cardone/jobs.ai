@@ -1,6 +1,18 @@
+import { Route, Switch } from "react-router-dom";
+import BootstrapRef from "./components/BootstrapRef";
+
 function App() {
   return (
-    <h1>Hello from App</h1>
+    <>
+      <Switch>
+        <Route path="/bs">
+          <BootstrapRef></BootstrapRef>
+        </Route>
+        <Route path="/login">
+          
+        </Route>
+      </Switch>
+    </>
   );
 }
 
