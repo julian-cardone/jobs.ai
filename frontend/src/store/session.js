@@ -58,7 +58,7 @@ const startSession = (userInfo, route) => async dispatch => {
     }
   }
 };
-
+ 
 //session reducer
 const initialState = {
   user: undefined
