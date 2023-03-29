@@ -48,7 +48,7 @@ function SignupForm() {
 
   return (
     <>
-      <div className="container-lg my-5">
+      <div className="container-lg my-5 pt-4">
         <form className="session-form" onSubmit={emailSubmit}>
           <h2 className="text-center mb-4">Sign Up</h2>
 
@@ -56,7 +56,7 @@ function SignupForm() {
             <input
               type="email"
               className="col-4 border rounded"
-              id="inputsignup"
+              id="inputsauth"
               value={email}
               onChange={update("email")}
               placeholder="Email"
@@ -70,7 +70,7 @@ function SignupForm() {
             <input
               type="password"
               className="col-4 border rounded"
-              id="inputsignup"
+              id="inputsauth"
               value={password}
               onChange={update("password")}
               placeholder="Password"
@@ -84,7 +84,7 @@ function SignupForm() {
             <input
               type="password"
               className="col-4 border rounded"
-              id="inputsignup"
+              id="inputsauth"
               value={password2}
               onChange={update("password2")}
               placeholder="Confirm Password"

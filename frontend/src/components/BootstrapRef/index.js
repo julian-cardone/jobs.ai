@@ -2,7 +2,7 @@ function BootstrapRef(){
  
   return(
     <>
-      <div className="container-lg my-5">
+      <div className="container-lg my-5 pt-5">
         <h2>Basic grid</h2>
         <div className="row">
           <div className="col">

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./NavBar.css";
 import { logout } from "../../store/session";
@@ -9,7 +9,6 @@ import NavBarLinksLoggedOut from "./NavBarLinksLoggedOut";
 function NavBar() {
   const loggedIn = useSelector((state) => !!state.session.user);
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const logoutUser = (e) => {
     e.preventDefault();
@@ -17,9 +16,6 @@ function NavBar() {
   };
 
   const getLinks = () => {
-    if (location.pathname === "/login" || location.pathname === "/signup") {
-      return null;
-    }
     if (loggedIn) {
       return (
         <div className="links-nav">
@@ -32,19 +28,23 @@ function NavBar() {
     } else {
       return (
         <>
-          <nav className="navbar navbar-expand-md navbar-light bg-light">
-            <div className="container-xxl">
-              <NavBarLogo />
-              <NavBarCollapse />
-              <NavBarLinksLoggedOut />
-            </div>
-          </nav>
+          <NavBarLinksLoggedOut />
         </>
       );
     }
   };
 
-  return <>{getLinks()}</>;
+  return (
+    <>
+      <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <div className="container-xl">
+          <NavBarLogo />
+          <NavBarCollapse />
+          {getLinks()}
+        </div>
+      </nav>
+    </>
+  );
 }
 
 export default NavBar;
