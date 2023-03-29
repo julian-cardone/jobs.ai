@@ -50,7 +50,7 @@ function BootstrapRef(){
         </div>
       </div>
 
-      <div class="container-lg my-5">
+      <div className="container-lg my-5">
         <h2>justifying columns</h2>
         <div className="row justify-content-center">
           <div className="col-md-3">

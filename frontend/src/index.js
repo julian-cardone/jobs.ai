@@ -20,11 +20,9 @@ const root = createRoot(domNode);
 function Root() {
   return (
     <Provider store={store}>
-      <UserProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </UserProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   );
 }
