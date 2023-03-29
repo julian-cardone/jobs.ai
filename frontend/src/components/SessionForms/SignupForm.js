@@ -5,10 +5,9 @@ import { signup, clearSessionErrors } from "../../store/session";
 
 function SignupForm() {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const errors = useSelector((state) => state.sessionErrorsReducer);
+  const errors = useSelector((state) => state.sessionErrors);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,9 +23,6 @@ function SignupForm() {
       case "email":
         setState = setEmail;
         break;
-      case "username":
-        setState = setUsername;
-        break;
       case "password":
         setState = setPassword;
         break;
@@ -40,11 +36,10 @@ function SignupForm() {
     return (e) => setState(e.currentTarget.value);
   };
 
-  const usernameSubmit = (e) => {
+  const emailSubmit = (e) => {
     e.preventDefault();
     const user = {
       email,
-      username,
       password,
     };
 
@@ -54,12 +49,9 @@ function SignupForm() {
   return (
     <>
       <div className="container-lg my-5">
-        <form className="session-form" onSubmit={usernameSubmit}>
-          <h2 className="text-center mb-3">Sign Up</h2>
+        <form className="session-form" onSubmit={emailSubmit}>
+          <h2 className="text-center mb-4">Sign Up</h2>
 
-          <div className="errors row justify-content-center">
-            {errors?.email}
-          </div>
           <div className="row justify-content-center pl-3 pr-3 pt-2">
             <input
               type="email"
@@ -70,10 +62,10 @@ function SignupForm() {
               placeholder="Email"
             />
           </div>
-
           <div className="errors row justify-content-center">
-            {errors?.password}
+            {errors?.email}
           </div>
+
           <div className="row justify-content-center pl-3 pr-3 pt-2">
             <input
               type="password"
@@ -84,10 +76,10 @@ function SignupForm() {
               placeholder="Password"
             />
           </div>
-
           <div className="errors row justify-content-center">
-            {password !== password2 && "Confirm Password field must match"}
+            {errors?.password}
           </div>
+
           <div className="row justify-content-center pl-3 pr-3 pt-2">
             <input
               type="password"
@@ -98,11 +90,14 @@ function SignupForm() {
               placeholder="Confirm Password"
             />
           </div>
+          <div className="errors row justify-content-center">
+            {password !== password2 && "Confirm Password field must match"}
+          </div>
 
           <div className="row justify-content-center">
             <input
               type="submit"
-              className="col-1 btn btn-outline-primary mt-4"
+              className="col-1 btn btn-outline-primary mt-2"
               value="Sign Up"
               disabled={!email || !password || password !== password2}
             />
