@@ -24,7 +24,7 @@ function App() {
       <>
         <NavBar />
         <Switch>
-          <AuthRoute exact path="/bs" component={BootstrapRef} />
+          <AuthRoute exact path="/" component={BootstrapRef} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
         </Switch>
