@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './NavBar.css';
 import { logout } from '../../store/session';
@@ -6,6 +6,7 @@ import { logout } from '../../store/session';
 function NavBar () {
   const loggedIn = useSelector(state => !!state.session.user);
   const dispatch = useDispatch();
+  const location = useLocation();
   
   const logoutUser = e => {
       e.preventDefault();
@@ -13,6 +14,11 @@ function NavBar () {
   }
 
   const getLinks = () => {
+    if (location.pathname === "/login" || location.pathname === "/signup"){
+      return(
+        null
+      )
+    }
     if (loggedIn) {
       return (
         <div className="links-nav">
@@ -34,7 +40,6 @@ function NavBar () {
 
   return (
     <>
-      <h1>Chirper</h1>
       { getLinks() }
     </>
   );
