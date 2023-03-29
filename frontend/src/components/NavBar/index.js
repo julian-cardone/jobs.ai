@@ -32,11 +32,11 @@ function NavBar() {
     } else {
       return (
         <>
-          <nav className="navbar">
+          <nav className="navbar navbar-expand-md navbar-light bg-light">
             <div className="container-xxl">
               <NavBarLogo />
-              <NavBarLinksLoggedOut />
               <NavBarCollapse />
+              <NavBarLinksLoggedOut />
             </div>
           </nav>
         </>
