@@ -4,7 +4,6 @@ import {
   githubProvider,
   googleProvider,
 } from "../../authConfig/authProviders";
-import socialMediaAuth from "../../authConfig/firebase-config"; // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
