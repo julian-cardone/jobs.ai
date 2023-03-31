@@ -11,7 +11,6 @@ import { createRoot } from "react-dom/client";
 // bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { UserProvider } from "./context/currentSession";
 
 let store = configureStore({});
 const domNode = document.getElementById("root");
