@@ -10,12 +10,14 @@ import "firebase/compat/auth";
 import { getAuth } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
 import jwtFetch from "../../store/jwt";
+import { useDispatch } from "react-redux";
+import { signup } from "../../store/session";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 function SignUp() {
-  const [googleInfo, setGoogleInfo] = useState("");
+  const dispatch = useDispatch();
 
   const socialMediaAuth = (provider) => {
     //fetch key
@@ -37,8 +39,14 @@ function SignUp() {
 
         signInWithPopup(auth, provider)
           .then((result) => {
+            console.log(result);
             // console.log(result);
-            setGoogleInfo(result);
+            // const googleUser = {
+            //   email: result.user.email,
+            //   phoneNumber: result.user.phoneNumber,
+            //   name: result.user.name
+            // };
+            // dispatch(signup(googleUser));
             // This gives you a Google Access Token. You can use it to access the Google API.
             // const credential = GoogleAuthProvider.credentialFromResult(result);
             // const token = credential.accessToken;
@@ -61,8 +69,6 @@ function SignUp() {
           });
       });
   };
-
-  console.log(googleInfo);
 
   return (
     <button className="col-4" onClick={() => socialMediaAuth(googleProvider)}>
