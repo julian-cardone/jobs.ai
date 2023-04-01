@@ -16,15 +16,25 @@ function NavBarLinksLoggedIn() {
         className="collapse navbar-collapse justify-content-end align-center"
         id="main-nav"
       >
-        <li className="nav-item">
-          <Link to={"/signup"} className="nav-link">
-            Signup
-          </Link>
-          <Link to={"/signup"} className="nav-link">
-            Signup
-          </Link>
-        </li>
-      <button onClick={logoutUser}>Logout</button>
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <Link to={"/signup"} className="nav-link">
+              Signup
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to={"/signup"} className="nav-link">
+              Signup
+            </Link>
+          </li>
+        </ul>
+      </div>
+
+      <div
+        className="collapse navbar-collapse justify-content-end align-center"
+        id="main-nav"
+      >
+        <button onClick={logoutUser}>Logout</button>
       </div>
     </>
   );
