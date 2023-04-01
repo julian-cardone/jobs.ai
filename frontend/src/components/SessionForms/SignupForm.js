@@ -105,9 +105,9 @@ function SignupForm() {
           </div>
         </form>
 
-        <div className="row justify-content-center pl-3 pr-3 pt-2">
+        {/* <div className="row justify-content-center pl-3 pr-3 pt-2">
           <SignUp />
-        </div>
+        </div> */}
       </div>
     </>
   );
