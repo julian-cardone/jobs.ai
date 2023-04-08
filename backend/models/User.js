@@ -5,8 +5,8 @@ const userSchema = Schema(
   {
     email: { type: String, required: true, unique: true, null: false },
     hashedPassword: { type: String, required: true },
-    phoneNumber: {type: String, required: false},
-    name: {type: String, required: false} 
+    phoneNumber: { type: String, required: false },
+    name: { type: String, required: false },
   },
   {
     timestamps: true,
