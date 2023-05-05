@@ -74,6 +74,7 @@ function SignUp() {
     <button className="col-4" onClick={() => socialMediaAuth(googleProvider)}>
       Google
     </button>
+    //auth stuff
     // <button onClick={() => handleAuth(facebookProvider)}>Facebook</button>
     // <button onClick={() => handleAuth(githubProvider)}>GitHub</button>
   );
