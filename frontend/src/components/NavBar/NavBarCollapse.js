@@ -1,4 +1,5 @@
 function NavBarCollapse() {
+  //make custom hooks, condense more
   return (
     //toggle button for mobile nav
     <button
