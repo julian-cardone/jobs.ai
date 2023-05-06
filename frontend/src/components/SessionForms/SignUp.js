@@ -71,6 +71,7 @@ function SignUp() {
   };
 
   return (
+    //google auth
     <button className="col-4" onClick={() => socialMediaAuth(googleProvider)}>
       Google
     </button>
