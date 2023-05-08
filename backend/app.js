@@ -49,7 +49,7 @@ app.use(
   })
 );
 
-//this
+//this, parse through
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
