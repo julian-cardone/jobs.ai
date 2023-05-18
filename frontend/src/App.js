@@ -15,8 +15,11 @@ import Home from "./components/HomePage";
 import CoverLetter from "./components/CoverLetter";
 
 function App() {
-  const [loaded, setLoaded] = useState(false);
+
   const dispatch = useDispatch();
+  
+  const [loaded, setLoaded] = useState(false);
+  
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);

@@ -17,7 +17,7 @@ const bodyParser = require("body-parser");
 //
 
 //routers
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
 const resumesRouter = require("./routes/api/resumes");
 const csrfRouter = require('./routes/api/csrf');
@@ -56,7 +56,7 @@ app.use(bodyParser.json());
 //
 
 //attaching express routers
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/resumes", resumesRouter);
 app.use('/api/csrf', csrfRouter);
