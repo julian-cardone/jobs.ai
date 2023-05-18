@@ -79,9 +79,11 @@ router.post(
     }
 
     //upload to aws s3
-    const file = req.body.file.file;
+    const file = req.body.file.file.slice(28)
     const id = req.body.userId;
     let fileName = generateId();
+
+    console.log(file);
 
     const cl = await CoverLetter.findOne({
       $or: [{ title: fileName}]
