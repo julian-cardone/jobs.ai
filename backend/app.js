@@ -15,7 +15,7 @@ require("./models/CoverLetter")
 require("./config/passport"); // <-- ADD THIS LINE
 const passport = require("passport");
 var path = require("path");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 //
 
 //routers
@@ -30,8 +30,8 @@ const keys = require("./config/keys");
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
 app.use(fileUpload());
 
@@ -42,20 +42,6 @@ if (!isProduction) {
   // server will serve the React files statically.)
   app.use(cors());
 }
-
-//aws
-const {
-  S3Client,
-  PutObjectCommand
-} = require("@aws-sdk/client-s3");
-
-const s3Config = {
-  accessKeyId: keys.awss3,
-  secretAccessKey: keys.awss3s,
-  region: "us-east-1",
-};
-
-const s3Client = new S3Client(s3Config);
 
 // Set the _csrf token and create req.csrfToken method to generate a hashed
 // CSRF token
@@ -71,8 +57,8 @@ app.use(
 
 //this, parse through
 app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.urlencoded({limit: "50mb", extended: false, parameterLimit:50000}));
 //
 
 //attaching express routers
