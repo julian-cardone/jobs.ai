@@ -78,7 +78,6 @@ export const clearCoverLetterErrors = (errors) => ({
 // }
 
 export const newCoverLetter = (data) => async (dispatch) => {
-console.log(data);
 
   try {
     const res = await jwtFetch("/api/coverletter/upload", {

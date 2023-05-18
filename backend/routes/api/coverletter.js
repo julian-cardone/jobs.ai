@@ -15,6 +15,8 @@ const {
   PutObjectCommand
 } = require("@aws-sdk/client-s3");
 
+const generateId = require("../../../frontend/src/utils/generateId");
+
 const s3Config = {
   region: "us-east-1",
   credentials: {
@@ -71,7 +73,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const { errors, isValid } = validateCoverLetterInput(req.body);
-    let success = false;
 
     if (!isValid) {
       return res.status(400).json(errors);
@@ -80,7 +81,15 @@ router.post(
     //upload to aws s3
     const file = req.body.file.file;
     const id = req.body.userId;
-    const fileName = "test4";   // todo randomize this
+    let fileName = generateId();
+
+    const cl = await CoverLetter.findOne({
+      $or: [{ title: fileName}]
+    });
+
+    while(cl){
+      fileName = generateId();
+    }
     
     const bucketParams = {
       Bucket: keys.bucketname,
@@ -95,7 +104,6 @@ router.post(
         title: fileName,
         fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`, //how will this come in ? as a string?
       });
-      console.log(newCoverletter);
   
       newCoverletter.save().then((coverletter) => res.json(coverletter));
 
