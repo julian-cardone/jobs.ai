@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function CoverLetter() {
 
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log(selectedFile);
+
+  useEffect(()=>{
+    
+  }, []);
 
   return (
     <>
