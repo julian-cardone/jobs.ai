@@ -1,4 +1,4 @@
-import { Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -30,10 +30,10 @@ function App() {
         <NavBar />
         <Switch>
           <AuthRoute exact path="/" component={Home} />
-          <AuthRoute exact path="/bs" component={BootstrapRef} />
+          <Route exact path="/bs" component={BootstrapRef} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
-          <ProtectedRoute exact path="coverletter" component={CoverLetter} />
+          <ProtectedRoute exact path="/coverletter" component={CoverLetter} />
         </Switch>
       </>
     )
