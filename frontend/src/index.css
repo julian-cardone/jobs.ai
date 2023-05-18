@@ -1,3 +1,5 @@
+@import "components/NavBar/NavBar.css";
+
 /* TODO Add site wide styles */
 
 /* errors */
@@ -8,3 +10,4 @@ form > .errors {
     display: flex;
     align-items: center;
   }
+

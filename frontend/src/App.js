@@ -11,6 +11,8 @@ import LoginForm from "./components/SessionForms/LoginForm";
 import SignupForm from "./components/SessionForms/SignupForm";
 
 import { getCurrentUser } from "./store/session";
+import Home from "./components/HomePage";
+import CoverLetter from "./components/CoverLetter";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -24,9 +26,11 @@ function App() {
       <>
         <NavBar />
         <Switch>
+          <AuthRoute exact path="/" component={Home} />
           <AuthRoute exact path="/bs" component={BootstrapRef} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
+          <ProtectedRoute exact path="coverletter" component={CoverLetter} />
         </Switch>
       </>
     )
