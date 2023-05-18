@@ -38,7 +38,7 @@ export const clearCoverLetterErrors = (errors) => ({
   errors,
 });
 
-// export const fetchEvents = () => async dispatch => {
+// export const fetchCoverLettersByUser = () => async dispatch => {
 //   try {
 //       const res = await jwtFetch('/api/events/')
 //       const events = await res.json();
@@ -51,9 +51,22 @@ export const clearCoverLetterErrors = (errors) => ({
 //   }
 // };
 
-//   export const fetchCoverLetter = (CoverLetterId) => async dispatch => {
+// export const fetchCoverLettersByUser = () => async dispatch => {
+//   try {
+//       const res = await jwtFetch('/api/events/')
+//       const events = await res.json();
+//       dispatch(receiveEvents(events))
+//   } catch (err) {
+//       const resBody = await err.json();
+//       if (resBody.statusCode === 400) {
+//           return dispatch(receiveErrors(resBody.errors));
+//       }
+//   }
+// };
+
+//   export const fetchCoverLetter = (userId) => async dispatch => {
 //     try {
-//         const res = await jwtFetch(`/api/events/${eventId}`)
+//         const res = await jwtFetch(`/api/coverletter/${userId}`)
 //         const event = await res.json();
 //         dispatch(receiveEvent(event))
 //     } catch (err) {

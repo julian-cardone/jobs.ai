@@ -78,10 +78,10 @@ router.post(
     }
 
     //upload to aws s3
-    const file = req.body.file;
-    console.log(file);
-    const fileName = "test";
-
+    const file = req.body.file.file;
+    const id = req.body.userId;
+    const fileName = "test4";   // todo randomize this
+    
     const bucketParams = {
       Bucket: keys.bucketname,
       Key: fileName,
@@ -89,22 +89,21 @@ router.post(
     };
     try {
       const data = await s3Client.send(new PutObjectCommand(bucketParams));
-      res.send(data)
-      success = true;
+
+      const newCoverletter = new CoverLetter({
+        userId: id, //test this out
+        title: fileName,
+        fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`, //how will this come in ? as a string?
+      });
+      console.log(newCoverletter);
+  
+      newCoverletter.save().then((coverletter) => res.json(coverletter));
+
     } catch (err) {
       console.log("Error uploading", err);
     }
   
-    //if good, then create new cover letter
-    // if (success){
-    //   const newCoverletter = new CoverLetter({
-    //     userId: req.user.id, //test this out
-    //     title: req.body.title,
-    //     fileURL: req.body.file, //how will this come in ? as a string?
-    //   });
-  
-    //   newCoverletter.save().then((coverletter) => res.json(coverletter));
-    // }
+    // if good, then create new cover letter
   }
 );
 

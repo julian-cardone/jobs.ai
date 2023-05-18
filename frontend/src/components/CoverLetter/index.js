@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { newCoverLetter } from "../../store/coverLetter";
 
 function CoverLetter() {
@@ -7,6 +7,7 @@ function CoverLetter() {
   // const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user._id)
 
   const handleSubmit = (e) => {
     let files = e.target.files
@@ -18,10 +19,14 @@ function CoverLetter() {
       console.warn("data ", e.target.result);
 
       const formData={file:e.target.result}
-      dispatch(newCoverLetter(formData));
+      dispatch(newCoverLetter({file: formData, userId: user}));
     }
 
   }
+
+  useEffect(()=>{
+
+  },[])
 
   return (
     <>
