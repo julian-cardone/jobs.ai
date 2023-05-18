@@ -6,10 +6,12 @@ const cors = require('cors');
 const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 const debug = require('debug');
+const fileUpload = require("express-fileupload");
 
 //this
 require("./models/User");
 require("./models/Resume");
+require("./models/CoverLetter")
 require("./config/passport"); // <-- ADD THIS LINE
 const passport = require("passport");
 var path = require("path");
@@ -20,7 +22,10 @@ const bodyParser = require("body-parser");
 // const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
 const resumesRouter = require("./routes/api/resumes");
+const coverLetterRouter = require("./routes/api/coverletter")
 const csrfRouter = require('./routes/api/csrf');
+
+const keys = require("./config/keys");
 
 const app = express();
 
@@ -28,6 +33,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(fileUpload());
 
 // Security Middleware
 if (!isProduction) {
@@ -36,6 +42,20 @@ if (!isProduction) {
   // server will serve the React files statically.)
   app.use(cors());
 }
+
+//aws
+const {
+  S3Client,
+  PutObjectCommand
+} = require("@aws-sdk/client-s3");
+
+const s3Config = {
+  accessKeyId: keys.awss3,
+  secretAccessKey: keys.awss3s,
+  region: "us-east-1",
+};
+
+const s3Client = new S3Client(s3Config);
 
 // Set the _csrf token and create req.csrfToken method to generate a hashed
 // CSRF token
@@ -60,6 +80,7 @@ app.use(bodyParser.json());
 app.use("/api/users", usersRouter);
 app.use("/api/resumes", resumesRouter);
 app.use('/api/csrf', csrfRouter);
+app.use("/api/coverletter", coverLetterRouter)
 app.use(passport.initialize());
 
 // Express custom middleware for catching all unmatched requests and formatting

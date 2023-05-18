@@ -6,7 +6,7 @@ const passport = require("passport");
 //cover letter model
 const CoverLetter = require("../../models/CoverLetter");
 //resume validtor
-const validateCoverLetterInput = require("../../validation/CoverLetter");
+const validateCoverLetterInput = require("../../validation/coverletter");
 
 //ROUTES:
 // resume get all route
@@ -42,28 +42,46 @@ router.get("/:id", (req, res) => {
 
 //resume upload route
 router.post(
-  "/",
+  "/upload",
   //check to see if correct file type: do this in validations?
 
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
+  async (req, res) => {
     const { errors, isValid } = validateCoverLetterInput(req.body);
+    let success = false;
 
     if (!isValid) {
       return res.status(400).json(errors);
     }
 
     //upload to aws s3
-    
+    // const file = req.files.file;
+    console.log(req.body.get(file));
+    const fileName = req.files.file.name;
 
-    //if good, then create new Resume
-    const newCoverletter = new CoverLetter({
-      userId: req.user.id, //test this out
-      title: req.body.title,
-      fileURL: req.body.file, //how will this come in ? as a string?
-    });
-
-    newCoverletter.save().then((coverletter) => res.json(coverletter));
+    const bucketParams = {
+      Bucket: keys.bucketname,
+      Key: fileName,
+      Body: file.data,
+    };
+    try {
+      const data = await s3Client.send(new PutObjectCommand(bucketParams));
+      res.send(data)
+      success = true;
+    } catch (err) {
+      console.log("Error uploading", err);
+    }
+  
+    //if good, then create new cover letter
+    // if (success){
+    //   const newCoverletter = new CoverLetter({
+    //     userId: req.user.id, //test this out
+    //     title: req.body.title,
+    //     fileURL: req.body.file, //how will this come in ? as a string?
+    //   });
+  
+    //   newCoverletter.save().then((coverletter) => res.json(coverletter));
+    // }
   }
 );
 
