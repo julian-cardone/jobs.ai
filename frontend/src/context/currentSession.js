@@ -1,14 +1,14 @@
-// import { createContext } from "react";
-// import { useSelector } from "react-redux";
+import { createContext } from "react";
+import { useSelector } from "react-redux";
 
-// const UserContext = createContext();
+const UserContext = createContext();
 
-// export function UserProvider() {
-//   const currentUser = useSelector(state => console.log(state))
+export function UserProvider() {
+  const currentUser = useSelector(state => console.log(state))
 
-//   return (
-//     <>
-//       <UserContext.Provider currentUser={currentUser}></UserContext.Provider>
-//     </>
-//   );
-// }
+  return (
+    <>
+      <UserContext.Provider currentUser={currentUser}></UserContext.Provider>
+    </>
+  );
+}
