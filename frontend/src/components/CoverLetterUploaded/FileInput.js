@@ -32,7 +32,6 @@ function FileInput() {
           id="formFile"
           onChange={(e) => handleSubmit(e)}
         />
-        {/* <input type="submit"></input> */}
       </form>
     </>
   );

@@ -1,18 +1,12 @@
 import FileInput from "./FileInput";
-import { useLocation } from "react-router-dom";
+import Preview from "./Preview";
 
 function CoverLetterUploaded() {
-  const location = useLocation();
+
+  //fetch uploaded cls based on userid
 
   //testing
   // let binaryData = atob(base64Data);
-
-  // var bin = atob(base64Data);
-  // let blob = new Blob([bin], { type: 'application/pdf' });
-  // let pdfUrl = URL.createObjectURL(blob);
-  // Decode Base64 to binary and show some information about the PDF file (note that I skipped all checks)
-  // console.log('File Size:', Math.round(bin.length / 1024), 'KB');
-  // console.log('PDF Version:', bin.match(/^.PDF-([0-9.]+)/)[1]);
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');
@@ -40,7 +34,9 @@ function CoverLetterUploaded() {
               <p>loading symbol... selected CL: example.pdf</p>
             </div>
             <div id="preview" className="col-sm-7 col-md-5 col-lg-7">
-              <div className="p-5 bg-primary">preview</div>
+              <div className="p-5 bg-primary">Preview
+                <Preview></Preview>
+              </div>
             </div>
           </div>
           <div className="row mx-5">
