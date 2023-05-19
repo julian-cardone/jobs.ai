@@ -38,19 +38,36 @@ export const clearCoverLetterErrors = (errors) => ({
   errors,
 });
 
-// export const fetchCoverLettersByUser = () => async dispatch => {
-//   try {
-//       const res = await jwtFetch('/api/events/')
-//       const events = await res.json();
-//       dispatch(receiveEvents(events))
-//   } catch (err) {
-//       const resBody = await err.json();
-//       if (resBody.statusCode === 400) {
-//           return dispatch(receiveErrors(resBody.errors));
-//       }
-//   }
-// };
+export const fetchCoverLettersUploads = (userId) => async dispatch => {
+  try {
+      const res = await jwtFetch(`/api/coverletter/${userId}`)
+      const coverLetters = await res.json();
+      dispatch(receiveCoverLetters(coverLetters))
+  } catch (err) {
+      const resBody = await err.json();
+      if (resBody.statusCode === 400) {
+          return dispatch(receiveErrors(resBody.errors));
+      }
+  }
+};
 
+export const newCoverLetter = (data) => async (dispatch) => {
+
+  try {
+    const res = await jwtFetch("/api/coverletter/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    let coverLetter = await res.json();
+    dispatch(receiveNewCoverLetter(coverLetter));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
 // export const fetchCoverLettersByUser = () => async dispatch => {
 //   try {
 //       const res = await jwtFetch('/api/events/')
@@ -77,23 +94,6 @@ export const clearCoverLetterErrors = (errors) => ({
 //   }
 // }
 
-export const newCoverLetter = (data) => async (dispatch) => {
-
-  try {
-    const res = await jwtFetch("/api/coverletter/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    let coverLetter = await res.json();
-    dispatch(receiveNewCoverLetter(coverLetter));
-  } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      return dispatch(receiveErrors(resBody.errors));
-    }
-  }
-};
 
 //   export const deleteEvent = (eventId) => async dispatch => {
 //     try {

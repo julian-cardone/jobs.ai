@@ -4,10 +4,13 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import { sessionErrorsReducer } from './session';
+import coverLetterReducer, { coverLetterErrorReducer } from './coverLetter';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  sessionErrors: sessionErrorsReducer
+  sessionErrors: sessionErrorsReducer,
+  uploadedCoverLetters: coverLetterReducer,
+  uploadedCoverLettersErrors: coverLetterErrorReducer
 });
 
 let enhancer;

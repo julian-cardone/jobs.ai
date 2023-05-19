@@ -12,7 +12,8 @@ const validateCoverLetterInput = require("../../validation/coverletter");
 //aws
 const {
   S3Client,
-  PutObjectCommand
+  PutObjectCommand,
+  GetObjectCommand
 } = require("@aws-sdk/client-s3");
 
 const generateId = require("../../../frontend/src/utils/generateId");
@@ -25,13 +26,13 @@ const s3Config = {
   }
 };
 
+const s3Client = new S3Client(s3Config);
 // const s3Config = {
 //   accessKeyId: keys.awss3,
 //   secretAccessKey: keys.awss3s,
 //   region: "us-east-1",
 // };
 
-const s3Client = new S3Client(s3Config);
 
 //ROUTES:
 // resume get all route
@@ -44,17 +45,26 @@ const s3Client = new S3Client(s3Config);
 //     );
 // });
 
-//resume get all from user route
-// router.get("/resume/:userId", (req, res) => {
-//   Resume.find({ userId: req.params.userId })
-//     .sort({ date: -1 })
-//     .then((resumes) => res.json(resumes))
-//     .catch((err) =>
-//       res
-//         .status(404)
-//         .json({ noresumesfound: "No resumes found from that user" })
-//     );
-// });
+// cl get all from user route
+router.get("/:userId", (req, res) => {
+
+  CoverLetter.find({ userId: req.params.userId })
+  // .then((coverletters) => res.json(coverletters))
+  // .then((coverletters) => {
+  //   for (let i = 0; i < coverletters.length; i++){
+  //     s3Client.send(new GetObjectCommand({Bucket: keys.bucketname, Key: coverletters[i].title}))
+  //       .then(data => coverletters[i].b64 = data.Body)
+  //   }
+  //   res.json(coverletters);
+  // })
+  .then(coverletters => res.send(coverletters))
+  .catch((err) =>
+  res
+  .status(404)
+  .json({ noresumesfound: "No cover letters found from that user" })
+  );
+});
+// .sort({ date: -1 })
 
 //get coverletter with certain id
 router.get("/:id", (req, res) => {

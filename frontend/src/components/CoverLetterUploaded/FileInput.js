@@ -1,10 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { newCoverLetter } from "../../store/coverLetter";
 
-function FileInput() {
+function FileInput(user) {
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user._id);
 
   const handleSubmit = (e) => {
     let files = e.target.files;
