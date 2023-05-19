@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
-const keys = require("../../config/keys")
+const keys = require("../../config/keys");
 
 //cover letter model
 const CoverLetter = require("../../models/CoverLetter");
@@ -13,7 +13,7 @@ const validateCoverLetterInput = require("../../validation/coverletter");
 const {
   S3Client,
   PutObjectCommand,
-  GetObjectCommand
+  GetObjectCommand,
 } = require("@aws-sdk/client-s3");
 
 const generateId = require("../../../frontend/src/utils/generateId");
@@ -22,8 +22,8 @@ const s3Config = {
   region: "us-east-1",
   credentials: {
     accessKeyId: keys.awss3,
-    secretAccessKey: keys.awss3s
-  }
+    secretAccessKey: keys.awss3s,
+  },
 };
 
 const s3Client = new S3Client(s3Config);
@@ -32,7 +32,6 @@ const s3Client = new S3Client(s3Config);
 //   secretAccessKey: keys.awss3s,
 //   region: "us-east-1",
 // };
-
 
 //ROUTES:
 // resume get all route
@@ -46,34 +45,57 @@ const s3Client = new S3Client(s3Config);
 // });
 
 // cl get all from user route
-router.get("/:userId", (req, res) => {
-
+router.get("/uploaded/:userId", (req, res) => {
   CoverLetter.find({ userId: req.params.userId })
-  // .then((coverletters) => res.json(coverletters))
-  // .then((coverletters) => {
-  //   for (let i = 0; i < coverletters.length; i++){
-  //     s3Client.send(new GetObjectCommand({Bucket: keys.bucketname, Key: coverletters[i].title}))
-  //       .then(data => coverletters[i].b64 = data.Body)
-  //   }
-  //   res.json(coverletters);
-  // })
-  .then(coverletters => res.send(coverletters))
-  .catch((err) =>
-  res
-  .status(404)
-  .json({ nocoverlettersfound: "No cover letters found from that user" })
-  );
+    // .then((coverletters) => res.json(coverletters))
+    // .then((coverletters) => {
+    //   for (let i = 0; i < coverletters.length; i++){
+    //     s3Client.send(new GetObjectCommand({Bucket: keys.bucketname, Key: coverletters[i].title}))
+    //       .then(data => coverletters[i].b64 = data.Body)
+    //   }
+    //   res.json(coverletters);
+    // })
+    .then((coverletters) => res.send(coverletters))
+    .catch((err) =>
+      res
+        .status(404)
+        .json({ nocoverlettersfound: "No cover letters found from that user" })
+    );
 });
 // .sort({ date: -1 })
 
 //get coverletter with certain id
-router.get("/:id", (req, res) => {
-  Resume.findById(req.params.id)
-    .then((coverletter) => res.json(coverletter))
-    .catch((err) =>
-      res.status(404).json({ nocoverletterfound: "No resume found with that ID" })
-    );
+router.get("/:coverLetterId", async (req, res) => {
+  const coverLetter = await CoverLetter.findOne({
+    _id: req.params.coverLetterId,
+  });
+
+  const streamToString = (stream) =>
+  new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => chunks.push(chunk));
+    stream.on("error", reject);
+    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+  });
+
+  // .then((coverletter) => {
+  const { Body } = await s3Client.send(
+    new GetObjectCommand({ Bucket: keys.bucketname, Key: coverLetter.title })
+  );
+
+  const bodyContents = await streamToString(Body);
+
+  // .then(data => coverletters[i].b64 = data.Body)
+  // console.log(coverletter);
+  // console.log((data.Body.toString('utf-8')));
+  res.send({uri: bodyContents})
 });
+
+// .then((coverletter) => res.json(coverletter))
+// .catch((err) =>
+//   res.status(404).json({ nocoverletterfound: "No cover letter found with that ID" })
+// );
+// });
 
 //resume upload route
 router.post(
@@ -89,19 +111,19 @@ router.post(
     }
 
     //upload to aws s3
-    const file = req.body.file.file.slice(28)
+    const file = req.body.file.file.slice(28);
     const id = req.body.userId;
-    console.log(id);
+    const name = req.body.name;
     let fileName = generateId();
 
     const cl = await CoverLetter.findOne({
-      $or: [{ title: fileName}]
+      $or: [{ title: fileName }],
     });
 
-    while(cl){
+    while (cl) {
       fileName = generateId();
     }
-    
+
     const bucketParams = {
       Bucket: keys.bucketname,
       Key: fileName,
@@ -114,14 +136,14 @@ router.post(
         userId: id, //test this out
         title: fileName,
         fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`, //how will this come in ? as a string?
+        name: name,
       });
-  
-      newCoverletter.save().then((coverletter) => res.json(coverletter));
 
+      newCoverletter.save().then((coverletter) => res.json(coverletter));
     } catch (err) {
       console.log("Error uploading", err);
     }
-  
+
     // if good, then create new cover letter
   }
 );

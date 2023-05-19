@@ -13,17 +13,19 @@ function FileInput({ user, selectedLetter, setSelectedLetter }) {
 
       const formData = { file: e.target.result };
 
+      console.log(files[0])
+
       jwtFetch("/api/coverletter/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file: formData, userId: user }),
+        body: JSON.stringify({ file: formData, userId: user, name: files[0].name}),
       }).then((res) => (res.json())).then((data) => setSelectedLetter(data));
     };
   };
 
   return (
     <>
-      <form class="mb-3">
+      <form class="mb-2">
         <label htmlFor="formFile" className="form-label">
           Default file input example
         </label>

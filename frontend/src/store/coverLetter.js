@@ -40,7 +40,7 @@ export const clearCoverLetterErrors = (errors) => ({
 
 export const fetchCoverLettersUploads = (userId) => async dispatch => {
   try {
-    const res = await jwtFetch(`/api/coverletter/${userId}`)
+    const res = await jwtFetch(`/api/coverletter/uploaded/${userId}`)
     const coverLetters = await res.json();
       dispatch(receiveCoverLetters(coverLetters))
   } catch (err) {
@@ -81,18 +81,18 @@ export const newCoverLetter = (data) => async (dispatch) => {
 //   }
 // };
 
-//   export const fetchCoverLetter = (userId) => async dispatch => {
-//     try {
-//         const res = await jwtFetch(`/api/coverletter/${userId}`)
-//         const event = await res.json();
-//         dispatch(receiveEvent(event))
-//     } catch (err) {
-//         const resBody = await err.json();
-//         if (resBody.statusCode === 400) {
-//             return dispatch(receiveErrors(resBody.errors));
-//         }
-//   }
-// }
+  export const fetchCoverLetter = (coverLetterId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/coverletter/${coverLetterId}`)
+        const coverLetter = await res.json();
+        dispatch(receiveCoverLetter(coverLetter))
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+  }
+}
 
 
 //   export const deleteEvent = (eventId) => async dispatch => {

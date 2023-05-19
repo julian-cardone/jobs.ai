@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import FileInput from "./FileInput";
 import Preview from "./Preview";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCoverLettersUploads } from "../../store/coverLetter";
+import { fetchCoverLetter, fetchCoverLettersUploads } from "../../store/coverLetter";
 import ClsList from "./ClsList";
 
 function CoverLetterUploaded() {
@@ -10,9 +10,11 @@ function CoverLetterUploaded() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user._id);
   const coverLetters = useSelector((state) => Object.values(state.uploadedCoverLetters.all))||[];
+  const selectedCoverLetter = useSelector((state) => state.uploadedCoverLetters.one)||null;
   const [selectedLetter, setSelectedLetter] = useState(null);
 
-  console.log(selectedLetter);
+  // console.log(selectedLetter);
+  // console.log(selectedCoverLetter.uri);
 
   //fetch uploaded cls based on userid
 
@@ -36,6 +38,9 @@ function CoverLetterUploaded() {
 
   useEffect(()=>{
     dispatch(fetchCoverLettersUploads(user))
+    if (selectedLetter != null){
+      dispatch(fetchCoverLetter(selectedLetter._id));
+    }
   },[user, selectedLetter])   //memoize or ref?? 
 
   return (
@@ -48,21 +53,19 @@ function CoverLetterUploaded() {
               <FileInput user={user}dispatch={dispatch}selectedLetter={selectedLetter}setSelectedLetter={setSelectedLetter}></FileInput>
               <p>loading symbol... selected CL: example.pdf</p>
             </div>
-            <div id="preview" className="col-sm-7 col-md-5 col-lg-7">
-              <div className="p-5 bg-primary">Preview
-                <Preview></Preview>
-              </div>
-            </div>
-          </div>
-          <div className="row mx-5">
-            <div className="col-sm-6 col-md-6 col-lg-4"></div>
-          </div>
-          <div className="row mx-5">
+
             <div className="mt-5 col-sm-6 col-md-6 col-lg-4">
               {/* <div className="p-5 bg-primary"></div> */}
               <ClsList coverLetters={coverLetters}selectedLetter={selectedLetter}setSelectedLetter={setSelectedLetter}></ClsList>
             </div>
+
+            <div id="preview" className="pt-2 col-sm-7 col-md-5 col-lg-7 min-vh-100">
+            {selectedCoverLetter && <Preview selectedCoverLetter={selectedCoverLetter}></Preview>}
+            </div>
+
           </div>
+          {/* <div className="row mx-5"> */}
+          {/* </div> */}
           {/* <a innerHTML="Download for pdf" download=""></a> */}
         </div>
       </>
