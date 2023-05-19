@@ -1,11 +1,8 @@
-import { useDispatch } from "react-redux";
-import { newCoverLetter } from "../../store/coverLetter";
+import jwtFetch from "../../store/jwt";
 
-function FileInput(user) {
+function FileInput({ user, selectedLetter, setSelectedLetter }) {
 
-  const dispatch = useDispatch();
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     let files = e.target.files;
 
     let reader = new FileReader();
@@ -15,7 +12,12 @@ function FileInput(user) {
       console.warn("data ", e.target.result);
 
       const formData = { file: e.target.result };
-      dispatch(newCoverLetter({ file: formData, userId: user }));
+
+      jwtFetch("/api/coverletter/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ file: formData, userId: user }),
+      }).then((res) => (res.json())).then((data) => setSelectedLetter(data));
     };
   };
 

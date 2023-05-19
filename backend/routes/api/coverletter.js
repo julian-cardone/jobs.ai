@@ -61,7 +61,7 @@ router.get("/:userId", (req, res) => {
   .catch((err) =>
   res
   .status(404)
-  .json({ noresumesfound: "No cover letters found from that user" })
+  .json({ nocoverlettersfound: "No cover letters found from that user" })
   );
 });
 // .sort({ date: -1 })
@@ -91,6 +91,7 @@ router.post(
     //upload to aws s3
     const file = req.body.file.file.slice(28)
     const id = req.body.userId;
+    console.log(id);
     let fileName = generateId();
 
     const cl = await CoverLetter.findOne({

@@ -40,8 +40,8 @@ export const clearCoverLetterErrors = (errors) => ({
 
 export const fetchCoverLettersUploads = (userId) => async dispatch => {
   try {
-      const res = await jwtFetch(`/api/coverletter/${userId}`)
-      const coverLetters = await res.json();
+    const res = await jwtFetch(`/api/coverletter/${userId}`)
+    const coverLetters = await res.json();
       dispatch(receiveCoverLetters(coverLetters))
   } catch (err) {
       const resBody = await err.json();
