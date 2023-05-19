@@ -19,4 +19,7 @@ function Preview({ selectedCoverLetter }) {
   );
 }
 
+// special thanks to:
+// https://base64.guru/developers/javascript/examples/decode-pdf
+
 export default Preview;

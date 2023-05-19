@@ -7,6 +7,7 @@ import {
   fetchCoverLettersUploads,
 } from "../../store/coverLetter";
 import ClsList from "./ClsList";
+import SideBar from "../SideBar";
 
 function CoverLetterUploaded() {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function CoverLetterUploaded() {
     //specify in routes
     <>
       <>
+      {/* <SideBar></SideBar> */}
         <div className="container-lg my-5 pt-5">
           <div className="row mx-5 justify-content-between">
             <div className="col-sm-6 col-md-6 col-lg-4">
@@ -65,7 +67,7 @@ function CoverLetterUploaded() {
               <p>loading symbol... selected CL: {selectedLetter?.name||"Please select a Cover Letter"}</p>
             </div>
 
-            <div className="mt-5 col-sm-6 col-md-6 col-lg-4">
+            <div className="mt-5 col-sm-6 col-md-6 col-lg-4 px-0">
               {/* <div className="p-5 bg-primary"></div> */}
               <ClsList
                 coverLetters={coverLetters}
@@ -76,7 +78,7 @@ function CoverLetterUploaded() {
 
             <div
               id="preview"
-              className="pt-4 px-0 col-sm-7 col-md-5 col-lg-7 min-vh-100"
+              className="pt-4 px-0col-sm-7 col-md-8 col-lg-8 min-vh-100"
             >
               {selectedCoverLetter && (
                 <Preview selectedCoverLetter={selectedCoverLetter}></Preview>
