@@ -18,7 +18,7 @@ function NavBarLinksLoggedIn() {
       >
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/coverletter"} className="nav-link">
+            <Link to={"/uploadedcls"} className="nav-link">
               Cover Letter
             </Link>
           </li>

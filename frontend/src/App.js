@@ -12,7 +12,7 @@ import SignupForm from "./components/SessionForms/SignupForm";
 
 import { getCurrentUser } from "./store/session";
 import Home from "./components/HomePage";
-import CoverLetter from "./components/CoverLetter";
+import CoverLetterUploaded from "./components/CoverLetterUploaded";
 
 function App() {
 
@@ -33,7 +33,7 @@ function App() {
           <Route exact path="/bs" component={BootstrapRef} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
-          <ProtectedRoute exact path="/coverletter" component={CoverLetter} />
+          <ProtectedRoute path="/uploadedcls" component={CoverLetterUploaded}></ProtectedRoute>
         </Switch>
       </>
     )

@@ -83,8 +83,6 @@ router.post(
     const id = req.body.userId;
     let fileName = generateId();
 
-    console.log(file);
-
     const cl = await CoverLetter.findOne({
       $or: [{ title: fileName}]
     });
