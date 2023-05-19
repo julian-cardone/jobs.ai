@@ -27,7 +27,7 @@ function FileInput({ user, selectedLetter, setSelectedLetter }) {
     <>
       <form class="mb-2">
         <label htmlFor="formFile" className="form-label">
-          Default file input example
+          Upload a Cover Letter
         </label>
         <input
           className="form-control"
