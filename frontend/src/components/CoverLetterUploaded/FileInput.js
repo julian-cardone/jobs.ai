@@ -1,7 +1,6 @@
 import jwtFetch from "../../store/jwt";
 
 function FileInput({ user, selectedLetter, setSelectedLetter }) {
-
   const handleSubmit = async (e) => {
     let files = e.target.files;
 
@@ -16,8 +15,14 @@ function FileInput({ user, selectedLetter, setSelectedLetter }) {
       jwtFetch("/api/coverletter/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file: formData, userId: user._id, name: files[0].name}),
-      }).then((res) => (res.json())).then((data) => setSelectedLetter(data));
+        body: JSON.stringify({
+          file: formData,
+          userId: user._id,
+          name: files[0].name,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => setSelectedLetter(data));
     };
   };
 
