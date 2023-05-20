@@ -13,12 +13,10 @@ function FileInput({ user, selectedLetter, setSelectedLetter }) {
 
       const formData = { file: e.target.result };
 
-      console.log(files[0])
-
       jwtFetch("/api/coverletter/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ file: formData, userId: user, name: files[0].name}),
+        body: JSON.stringify({ file: formData, userId: user._id, name: files[0].name}),
       }).then((res) => (res.json())).then((data) => setSelectedLetter(data));
     };
   };

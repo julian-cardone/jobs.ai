@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { createContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import { AuthRoute, ProtectedRoute } from "./components/Routes/Routes";
@@ -15,11 +15,10 @@ import Home from "./components/HomePage";
 import CoverLetterUploaded from "./components/CoverLetterUploaded";
 
 function App() {
-
   const dispatch = useDispatch();
-  
+
   const [loaded, setLoaded] = useState(false);
-  
+
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);
@@ -33,7 +32,10 @@ function App() {
           <Route exact path="/bs" component={BootstrapRef} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
-          <ProtectedRoute path="/uploadedcls" component={CoverLetterUploaded}></ProtectedRoute>
+          <ProtectedRoute
+            path="/uploadedcls"
+            component={CoverLetterUploaded}
+          ></ProtectedRoute>
         </Switch>
       </>
     )

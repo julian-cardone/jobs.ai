@@ -10,12 +10,12 @@ import ClsList from "./ClsList";
 
 function CoverLetterUploaded() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user._id);
   const coverLetters =
     useSelector((state) => Object.values(state.uploadedCoverLetters.all)) || [];
   const selectedCoverLetter =
     useSelector((state) => state.uploadedCoverLetters.one) || null;
   const [selectedLetter, setSelectedLetter] = useState(null);
+  const user = useSelector((state) => state.session.user);
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');
@@ -25,13 +25,11 @@ function CoverLetterUploaded() {
   // document.body.appendChild(link);
 
   useEffect(() => {
-    dispatch(fetchCoverLettersUploads(user));
+    dispatch(fetchCoverLettersUploads(user._id));
     if (selectedLetter != null) {
       dispatch(fetchCoverLetter(selectedLetter._id));
     }
   }, [user, selectedLetter]); //memoize or ref??
-
-  console.log(selectedLetter);
 
   return (
     <>
@@ -52,6 +50,7 @@ function CoverLetterUploaded() {
           </div>
 
           <div className="mt-5 col-sm-6 col-md-6 col-lg-4 px-0">
+            {/* <div className="p-5 bg-primary"></div> */}
             <ClsList
               coverLetters={coverLetters}
               selectedLetter={selectedLetter}
