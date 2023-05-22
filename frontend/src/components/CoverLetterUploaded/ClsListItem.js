@@ -1,4 +1,4 @@
-function ClsListItem ({ coverLetter, selectedLetter, setSelectedLetter }) {
+function ClsListItem ({ coverLetter, setSelectedLetter }) {
 
   return(
     <>

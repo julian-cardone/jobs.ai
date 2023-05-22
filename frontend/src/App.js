@@ -14,10 +14,16 @@ import { getCurrentUser } from "./store/session";
 import Home from "./components/HomePage";
 import CoverLetterUploaded from "./components/CoverLetterUploaded";
 
+export const UserContext = createContext();
+export const ClContext = createContext();
+
 function App() {
   const dispatch = useDispatch();
 
   const [loaded, setLoaded] = useState(false);
+  const [selectedLetter, setSelectedLetter] = useState(null);
+
+  const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
@@ -26,17 +32,21 @@ function App() {
   return (
     loaded && (
       <>
-        <NavBar />
-        <Switch>
-          <AuthRoute exact path="/" component={Home} />
-          <Route exact path="/bs" component={BootstrapRef} />
-          <AuthRoute exact path="/login" component={LoginForm} />
-          <AuthRoute exact path="/signup" component={SignupForm} />
-          <ProtectedRoute
-            path="/uploadedcls"
-            component={CoverLetterUploaded}
-          ></ProtectedRoute>
-        </Switch>
+        <UserContext.Provider value={user}>
+          <ClContext.Provider value={[selectedLetter, setSelectedLetter]}>
+            <NavBar />
+            <Switch>
+              <AuthRoute exact path="/" component={Home} />
+              <Route exact path="/bs" component={BootstrapRef} />
+              <AuthRoute exact path="/login" component={LoginForm} />
+              <AuthRoute exact path="/signup" component={SignupForm} />
+              <ProtectedRoute
+                path="/uploadedcls"
+                component={CoverLetterUploaded}
+              ></ProtectedRoute>
+            </Switch>
+          </ClContext.Provider>
+        </UserContext.Provider>
       </>
     )
   );

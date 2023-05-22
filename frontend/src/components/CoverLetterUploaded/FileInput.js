@@ -1,6 +1,7 @@
 import jwtFetch from "../../store/jwt";
 
-function FileInput({ user, selectedLetter, setSelectedLetter }) {
+function FileInput({ user, setSelectedLetter }) {
+
   const handleSubmit = async (e) => {
     let files = e.target.files;
 
@@ -8,7 +9,6 @@ function FileInput({ user, selectedLetter, setSelectedLetter }) {
     reader.readAsDataURL(files[0]);
 
     reader.onload = (e) => {
-      console.warn("data ", e.target.result);
 
       const formData = { file: e.target.result };
 

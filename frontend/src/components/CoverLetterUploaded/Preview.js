@@ -1,7 +1,7 @@
 function Preview({ selectedCoverLetter }) {
-
   let base64Data = selectedCoverLetter.uri;
 
+  //TODO: create an alternative showing, ex: steps
   return (
     <>
       <object
@@ -11,7 +11,7 @@ function Preview({ selectedCoverLetter }) {
         height="100%"
       >
         <p>
-          Alternative text - include a link{" "}
+          Alternative text
           <a href="http://africau.edu/images/default/sample.pdf">to the PDF!</a>
         </p>
       </object>

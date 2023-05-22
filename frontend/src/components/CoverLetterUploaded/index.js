@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import FileInput from "./FileInput";
 import Preview from "./Preview";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,15 +7,20 @@ import {
   fetchCoverLettersUploads,
 } from "../../store/coverLetter";
 import ClsList from "./ClsList";
+import { ClContext, UserContext } from "../../App";
 
 function CoverLetterUploaded() {
   const dispatch = useDispatch();
+
   const coverLetters =
     useSelector((state) => Object.values(state.uploadedCoverLetters.all)) || [];
+  //This one is the fetched encoding
   const selectedCoverLetter =
     useSelector((state) => state.uploadedCoverLetters.one) || null;
-  const [selectedLetter, setSelectedLetter] = useState(null);
-  const user = useSelector((state) => state.session.user);
+
+  const user = useContext(UserContext);
+  const selectedLetter = useContext(ClContext)[0]; //this one is the id
+  const setSelectedLetter = useContext(ClContext)[1];
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');
@@ -29,7 +34,7 @@ function CoverLetterUploaded() {
     if (selectedLetter != null) {
       dispatch(fetchCoverLetter(selectedLetter._id));
     }
-  }, [user, selectedLetter]); //memoize or ref??
+  }, [user, selectedLetter, dispatch]); //memoize or ref??
 
   return (
     <>
@@ -39,8 +44,6 @@ function CoverLetterUploaded() {
           <div className="col-sm-6 col-md-6 col-lg-4">
             <FileInput
               user={user}
-              dispatch={dispatch}
-              selectedLetter={selectedLetter}
               setSelectedLetter={setSelectedLetter}
             ></FileInput>
             <p>
@@ -50,10 +53,8 @@ function CoverLetterUploaded() {
           </div>
 
           <div className="mt-5 col-sm-6 col-md-6 col-lg-4 px-0">
-            {/* <div className="p-5 bg-primary"></div> */}
             <ClsList
               coverLetters={coverLetters}
-              selectedLetter={selectedLetter}
               setSelectedLetter={setSelectedLetter}
             ></ClsList>
           </div>
