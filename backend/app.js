@@ -6,28 +6,34 @@ const cors = require('cors');
 const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 const debug = require('debug');
+const fileUpload = require("express-fileupload");
 
 //this
 require("./models/User");
 require("./models/Resume");
+require("./models/CoverLetter")
 require("./config/passport"); // <-- ADD THIS LINE
 const passport = require("passport");
 var path = require("path");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 //
 
 //routers
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
 const resumesRouter = require("./routes/api/resumes");
+const coverLetterRouter = require("./routes/api/coverletter")
 const csrfRouter = require('./routes/api/csrf');
+
+const keys = require("./config/keys");
 
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
+app.use(fileUpload());
 
 // Security Middleware
 if (!isProduction) {
@@ -51,15 +57,16 @@ app.use(
 
 //this, parse through
 app.use(express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.json({limit: "50mb"}));
+// app.use(bodyParser.urlencoded({limit: "50mb", extended: false, parameterLimit:50000}));
 //
 
 //attaching express routers
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/resumes", resumesRouter);
 app.use('/api/csrf', csrfRouter);
+app.use("/api/coverletter", coverLetterRouter)
 app.use(passport.initialize());
 
 // Express custom middleware for catching all unmatched requests and formatting

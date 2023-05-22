@@ -4,29 +4,29 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 // Create users
-const users = [];
+// const users = [];
 
-users.push(
-  new User ({
-    email: 'demo-user@appacademy.io',
-    hashedPassword: bcrypt.hashSync('starwars', 10)
-  })
-)
+// users.push(
+//   new User ({
+//     email: 'demo-user@appacademy.io',
+//     hashedPassword: bcrypt.hashSync('starwars', 10)
+//   })
+// )
 
-const insertSeeds = () => {
-  console.log("Resetting db and seeding users...");
+// const insertSeeds = () => {
+//   console.log("Resetting db and seeding users...");
 
-  User.collection.drop()
-                 .then(() => User.insertMany(users))
-                 .then(() => {
-                   console.log("Done!");
-                   mongoose.disconnect();
-                 })
-                 .catch(err => {
-                   console.error(err.stack);
-                   process.exit(1);
-                 });
-}
+//   User.collection.drop()
+//                  .then(() => User.insertMany(users))
+//                  .then(() => {
+//                    console.log("Done!");
+//                    mongoose.disconnect();
+//                  })
+//                  .catch(err => {
+//                    console.error(err.stack);
+//                    process.exit(1);
+//                  });
+// }
 
 // Connect to database
 mongoose

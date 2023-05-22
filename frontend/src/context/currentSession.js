@@ -4,11 +4,11 @@
 // const UserContext = createContext();
 
 // export function UserProvider() {
-//   const currentUser = useSelector(state => console.log(state))
+//   const user = useSelector((state) => state.session.user);
 
 //   return (
 //     <>
-//       <UserContext.Provider currentUser={currentUser}></UserContext.Provider>
+//       <UserContext.Provider value={user}></UserContext.Provider>
 //     </>
 //   );
 // }

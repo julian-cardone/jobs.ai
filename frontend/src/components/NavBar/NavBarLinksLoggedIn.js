@@ -18,13 +18,8 @@ function NavBarLinksLoggedIn() {
       >
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/signup"} className="nav-link">
-              Signup
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={"/signup"} className="nav-link">
-              Signup
+            <Link to={"/uploadedcls"} className="nav-link">
+              Cover Letter
             </Link>
           </li>
         </ul>
