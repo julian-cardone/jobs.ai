@@ -14,13 +14,11 @@ function CoverLetterUploaded() {
 
   const coverLetters =
     useSelector((state) => Object.values(state.uploadedCoverLetters.all)) || [];
-  //This one is the fetched encoding
-  const selectedCoverLetter =
-    useSelector((state) => state.uploadedCoverLetters.one) || null;
 
   const user = useContext(UserContext);
-  const selectedLetter = useContext(ClContext)[0]; //this one is the id
+  const selectedLetter = useContext(ClContext)[0]; //this fetched info from MongoDB
   const setSelectedLetter = useContext(ClContext)[1];
+  const selectedCoverLetter = useContext(ClContext)[2]; //this is fetched from AWS
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');

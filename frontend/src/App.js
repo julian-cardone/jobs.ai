@@ -13,6 +13,7 @@ import SignupForm from "./components/SessionForms/SignupForm";
 import { getCurrentUser } from "./store/session";
 import Home from "./components/HomePage";
 import CoverLetterUploaded from "./components/CoverLetterUploaded";
+import CoverLetterGenerate from "./components/CoverLetterGenerate";
 
 export const UserContext = createContext();
 export const ClContext = createContext();
@@ -22,6 +23,10 @@ function App() {
 
   const [loaded, setLoaded] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState(null);
+
+  //This one is the fetched encoding from AWS
+  const selectedCoverLetter =
+    useSelector((state) => state.uploadedCoverLetters.one) || null;
 
   const user = useSelector((state) => state.session.user);
 
@@ -33,7 +38,9 @@ function App() {
     loaded && (
       <>
         <UserContext.Provider value={user}>
-          <ClContext.Provider value={[selectedLetter, setSelectedLetter]}>
+          <ClContext.Provider
+            value={[selectedLetter, setSelectedLetter, selectedCoverLetter]}
+          >
             <NavBar />
             <Switch>
               <AuthRoute exact path="/" component={Home} />
@@ -43,6 +50,10 @@ function App() {
               <ProtectedRoute
                 path="/uploadedcls"
                 component={CoverLetterUploaded}
+              ></ProtectedRoute>
+              <ProtectedRoute
+                path="/generatecl"
+                component={CoverLetterGenerate}
               ></ProtectedRoute>
             </Switch>
           </ClContext.Provider>
