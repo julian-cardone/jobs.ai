@@ -22,6 +22,14 @@ function NavBarLinksLoggedIn() {
               Cover Letter
             </Link>
           </li>
+
+          {/* temporary */}
+          <li className="nav-item">
+            <Link to={"/generatecl"} className="nav-link">
+              generatecl
+            </Link>
+          </li>
+          {/* temporary */}
         </ul>
       </div>
 

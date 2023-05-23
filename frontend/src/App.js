@@ -37,16 +37,16 @@ function App() {
   return (
     loaded && (
       <>
-        <UserContext.Provider value={user}>
-          <ClContext.Provider
-            value={[selectedLetter, setSelectedLetter, selectedCoverLetter]}
-          >
-            <NavBar />
-            <Switch>
-              <AuthRoute exact path="/" component={Home} />
-              <Route exact path="/bs" component={BootstrapRef} />
-              <AuthRoute exact path="/login" component={LoginForm} />
-              <AuthRoute exact path="/signup" component={SignupForm} />
+        <Switch>
+          <AuthRoute exact path="/" component={Home} />
+          <Route exact path="/bs" component={BootstrapRef} />
+          <AuthRoute exact path="/login" component={LoginForm} />
+          <AuthRoute exact path="/signup" component={SignupForm} />
+          <UserContext.Provider value={user}>
+            <ClContext.Provider
+              value={[selectedLetter, setSelectedLetter, selectedCoverLetter]}
+            >
+              <NavBar />
               <ProtectedRoute
                 path="/uploadedcls"
                 component={CoverLetterUploaded}
@@ -55,9 +55,9 @@ function App() {
                 path="/generatecl"
                 component={CoverLetterGenerate}
               ></ProtectedRoute>
-            </Switch>
-          </ClContext.Provider>
-        </UserContext.Provider>
+            </ClContext.Provider>
+          </UserContext.Provider>
+        </Switch>
       </>
     )
   );
