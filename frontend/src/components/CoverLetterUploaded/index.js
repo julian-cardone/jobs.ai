@@ -2,10 +2,7 @@ import { useContext, useEffect } from "react";
 import FileInput from "./FileInput";
 import Preview from "./Preview";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCoverLetter,
-  fetchCoverLettersUploads,
-} from "../../store/coverLetter";
+import { fetchCoverLettersUploads } from "../../store/coverLetter";
 import ClsList from "./ClsList";
 import { ClContext, UserContext } from "../../App";
 
