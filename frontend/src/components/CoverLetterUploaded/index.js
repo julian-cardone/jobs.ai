@@ -29,10 +29,7 @@ function CoverLetterUploaded() {
 
   useEffect(() => {
     dispatch(fetchCoverLettersUploads(user._id));
-    if (selectedLetter != null) {
-      dispatch(fetchCoverLetter(selectedLetter._id));
-    }
-  }, [user, selectedLetter, dispatch]); //memoize or ref??
+  }, [user, dispatch]); //memoize or ref??
 
   return (
     <>

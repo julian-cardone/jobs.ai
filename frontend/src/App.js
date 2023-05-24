@@ -14,6 +14,7 @@ import { getCurrentUser } from "./store/session";
 import Home from "./components/HomePage";
 import CoverLetterUploaded from "./components/CoverLetterUploaded";
 import CoverLetterGenerate from "./components/CoverLetterGenerate";
+import { fetchCoverLetter } from "./store/coverLetter";
 
 export const UserContext = createContext();
 export const ClContext = createContext();
@@ -21,31 +22,37 @@ export const ClContext = createContext();
 function App() {
   const dispatch = useDispatch();
 
+  //letter from local storage
+  const localLetter = JSON.parse(localStorage.getItem("selectedCl")) || null;
+
   const [loaded, setLoaded] = useState(false);
-  const [selectedLetter, setSelectedLetter] = useState(null);
+  const [selectedLetter, setSelectedLetter] = useState(localLetter);
 
   //This one is the fetched encoding from AWS
   const selectedCoverLetter =
-    useSelector((state) => state.uploadedCoverLetters.one) || null;
+    useSelector((state) => state.uploadedCoverLetters?.one) || null;
 
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
-  }, [dispatch]);
+    if (selectedLetter){
+      dispatch(fetchCoverLetter(selectedLetter._id))
+    }
+  }, [dispatch, selectedLetter]);
 
   return (
     loaded && (
       <>
         <Switch>
-          <AuthRoute exact path="/" component={Home} />
-          <Route exact path="/bs" component={BootstrapRef} />
-          <AuthRoute exact path="/login" component={LoginForm} />
-          <AuthRoute exact path="/signup" component={SignupForm} />
           <UserContext.Provider value={user}>
             <ClContext.Provider
               value={[selectedLetter, setSelectedLetter, selectedCoverLetter]}
             >
+              <AuthRoute exact path="/" component={Home} />
+              <Route exact path="/bs" component={BootstrapRef} />
+              <AuthRoute exact path="/login" component={LoginForm} />
+              <AuthRoute exact path="/signup" component={SignupForm} />
               <NavBar />
               <ProtectedRoute
                 path="/uploadedcls"
