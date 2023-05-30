@@ -1,5 +1,3 @@
-import jwtFetch from "../../store/jwt";
-
 function FileInput({ user, setSelectedLetter }) {
 
   const handleSubmit = async (e) => {
@@ -11,18 +9,19 @@ function FileInput({ user, setSelectedLetter }) {
     reader.onload = (e) => {
 
       const formData = { file: e.target.result };
-
-      jwtFetch("/api/coverletter/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          file: formData,
-          userId: user._id,
-          name: files[0].name,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => setSelectedLetter(data));
+      console.log(formData.file);
+    
+      // jwtFetch("/api/coverletter/upload", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     file: formData,
+      //     userId: user._id,
+      //     name: files[0].name,
+      //   }),
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => setSelectedLetter(data));
     };
   };
 
