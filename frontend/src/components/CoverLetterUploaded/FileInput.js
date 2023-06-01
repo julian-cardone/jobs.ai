@@ -1,4 +1,5 @@
 import InputData from "../../utils/base64Decoder";
+import jwtFetch from "../../store/jwt";
 
 function FileInput({ user, setSelectedLetter }) {
 
@@ -10,30 +11,31 @@ function FileInput({ user, setSelectedLetter }) {
 
 
     //pdf parser
-    let parser = new InputData();
+    // let parser = new InputData();
     
     let reader = new FileReader();
     // console.log(reader.readAsDataURL);
     
     // reader.readAsDataURL(files[0]);
+    
     reader.readAsDataURL(files[0]);
     
     reader.onload = (e) => {
       
       const formData = { file: e.target.result };
-      parser.decodeBase64(formData.file);
+      // parser.decodeBase64(formData.file);
     
-      // jwtFetch("/api/coverletter/upload", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     file: formData,
-      //     userId: user._id,
-      //     name: files[0].name,
-      //   }),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => setSelectedLetter(data));
+      jwtFetch("/api/coverletter/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          file: formData,
+          userId: user._id,
+          name: files[0].name,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => setSelectedLetter(data));
     };
 
 
