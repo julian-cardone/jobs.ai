@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const keys = require("../../config/keys");
+// const fileUpload = require("express-fileupload");
 
 //cover letter model
 const CoverLetter = require("../../models/CoverLetter");
@@ -9,6 +10,8 @@ const CoverLetter = require("../../models/CoverLetter");
 const validateCoverLetterInput = require("../../validation/coverletter");
 //generate id method
 const generateId = require("../../../frontend/src/utils/generateId");
+//pdfparse
+const pdfParse = require("pdf-parse");
 
 //aws
 const {
@@ -16,6 +19,7 @@ const {
   PutObjectCommand,
   GetObjectCommand,
 } = require("@aws-sdk/client-s3");
+const { resourceLimits } = require("worker_threads");
 
 const s3Config = {
   region: "us-east-1",
@@ -78,13 +82,29 @@ router.post(
 
     //upload to aws s3
     // const file = req.body.file.file.slice(28);
-    console.log(req.file)
-    const file = req.body.file;
-    const id = req.body.userId;
-    const name = req.body.name;
+    // const file = req.files;
+    // console.log(req);
+    // const id = req.body.userId;
+    // const name = req.body.name;
     let fileName = generateId();
+    // console.log(req.files);
+    // console.log(req.body?.pdfFiles);
+    // console.log(req.files?.pdfFile);
 
-    // for(var pair of file.entries()) {
+    // if (!req.files && !req.files?.pdfFile){
+    //   res.status(400);
+    //   res.end();
+    // } else {
+    //   res.send("IT WORKED?")
+    // }
+
+    pdfParse(req.files.pdfFile).then(result => res.send(result.text))
+
+    // pdfParse(req.files.pdfFile).then(result => {
+    //   res.send(result.text
+    // )})
+
+    // for(var pair of req.body.entries()) {
     //   console.log(pair[0]+', '+pair[1]);
     // }
 

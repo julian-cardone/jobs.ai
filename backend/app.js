@@ -6,7 +6,7 @@ const cors = require('cors');
 const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 const debug = require('debug');
-const fileUpload = require("express-fileupload");
+// const fileUpload = require("express-fileupload");
 
 //this
 require("./models/User");
@@ -33,7 +33,7 @@ app.use(logger("dev"));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
-app.use(fileUpload());
+// app.use(fileUpload());
 
 // Security Middleware
 if (!isProduction) {
