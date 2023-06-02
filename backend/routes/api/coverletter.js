@@ -77,10 +77,16 @@ router.post(
     }
 
     //upload to aws s3
-    const file = req.body.file.file.slice(28);
+    // const file = req.body.file.file.slice(28);
+    console.log(req.file)
+    const file = req.body.file;
     const id = req.body.userId;
     const name = req.body.name;
     let fileName = generateId();
+
+    // for(var pair of file.entries()) {
+    //   console.log(pair[0]+', '+pair[1]);
+    // }
 
     //check to see if name already exists, if so, produce a new one
     const cl = await CoverLetter.findOne({
@@ -91,26 +97,26 @@ router.post(
       fileName = generateId();
     }
 
-    const bucketParams = {
-      Bucket: keys.bucketname,
-      Key: fileName,
-      Body: file,
-    };
+    // const bucketParams = {
+    //   Bucket: keys.bucketname,
+    //   Key: fileName,
+    //   Body: file,
+    // };
 
-    try {
-      const data = await s3Client.send(new PutObjectCommand(bucketParams));
+    // try {
+    //   const data = await s3Client.send(new PutObjectCommand(bucketParams));
 
-      const newCoverletter = new CoverLetter({
-        userId: id,
-        title: fileName,
-        fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`,
-        name: name,
-      });
+    //   const newCoverletter = new CoverLetter({
+    //     userId: id,
+    //     title: fileName,
+    //     fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`,
+    //     name: name,
+    //   });
 
-      newCoverletter.save().then((coverletter) => res.json(coverletter));
-    } catch (err) {
-      console.log("Error uploading", err);
-    }
+    //   newCoverletter.save().then((coverletter) => res.json(coverletter));
+    // } catch (err) {
+    //   console.log("Error uploading", err);
+    // }
   }
 );
 

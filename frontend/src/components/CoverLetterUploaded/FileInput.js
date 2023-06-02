@@ -5,33 +5,31 @@ function FileInput({ user, setSelectedLetter }) {
 
   const handleSubmit = async (e) => {
     
-    let files = e.target.files;
-
-
-
+    let file = e.target.files[0];
 
     //pdf parser
-    // let parser = new InputData();
-    
+
     let reader = new FileReader();
-    // console.log(reader.readAsDataURL);
     
-    // reader.readAsDataURL(files[0]);
-    
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(file);
+
+    //formdata method
+    const formData = new FormData();
+    formData.append("pdfFile", file);
     
     reader.onload = (e) => {
       
-      const formData = { file: e.target.result };
+      // const formData = { file: e.target.result };
       // parser.decodeBase64(formData.file);
     
       jwtFetch("/api/coverletter/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        file: formData,
         body: JSON.stringify({
           file: formData,
           userId: user._id,
-          name: files[0].name,
+          name: file.name,
         }),
       })
         .then((res) => res.json())
