@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const keys = require("../../config/keys");
-// const fileUpload = require("express-fileupload");
 
 //cover letter model
 const CoverLetter = require("../../models/CoverLetter");
@@ -80,6 +79,14 @@ router.post(
       return res.status(400).json(errors);
     }
 
+    // const uploadedFile = req.files;
+    // console.log(uploadedFile);
+
+    console.log(req.files);
+    console.log(req.body);
+    res.json({ message: 'ok' });
+
+    // res.status(200).json({ message: 'File uploaded successfully' });
     //upload to aws s3
     // const file = req.body.file.file.slice(28);
     // const file = req.files;
@@ -98,7 +105,7 @@ router.post(
     //   res.send("IT WORKED?")
     // }
 
-    pdfParse(req.files.pdfFile).then(result => res.send(result.text))
+    // pdfParse(req.files.pdfFile).then(result => res.send(result.text))
 
     // pdfParse(req.files.pdfFile).then(result => {
     //   res.send(result.text

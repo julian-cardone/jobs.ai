@@ -1,12 +1,15 @@
 import InputData from "../../utils/base64Decoder";
+import  { createRef } from 'react';
 import jwtFetch from "../../store/jwt";
 
 function FileInput({ user, setSelectedLetter }) {
 
+  // const fileInput = createRef();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let file = e.target.files[0];
+    // let file = e.target.files[0];
 
     //pdf parser
 
@@ -16,20 +19,35 @@ function FileInput({ user, setSelectedLetter }) {
 
     //formdata method
     const formData = new FormData();
-    formData.append("pdfFile", file);
+    // console.log(e.target.files[0])
+    formData.set("pdfFile", e.target.files[0]);
+
+    //     for(var pair of formData.entries()) {
+    //   console.log(pair[0]+', '+pair[1]);
+    // }
     
     // reader.onload = (e) => {
       
       // const formData = { file: e.target.result };
       // parser.decodeBase64(formData.file);
 
-      jwtFetch("/api/coverletter/upload", {
-        method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
-        body: formData
-      })
-        .then((res) => res.text())
-        .then((data) => console.log(data));
+        jwtFetch("/api/coverletter/upload", {
+          method: "POST",
+          headers: { "Content-Type": "multipart/form-data" },
+          body: formData
+        });
+
+      //   const parseResponse = await response.json();
+      //   if (response.ok){
+      //     console.log("file uploaded")
+      //   } else {
+      //     console.error('error!!!')
+      //   }
+      // } catch (e) {
+      //   console.error(e.message)
+      // }
+        // .then((res) => res.text())
+        // .then((data) => console.log(data));
     
       // jwtFetch("/api/coverletter/upload", {
       //   method: "POST",

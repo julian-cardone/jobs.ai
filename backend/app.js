@@ -1,4 +1,6 @@
 const express = require("express");
+const app = express();
+
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
@@ -6,7 +8,7 @@ const cors = require('cors');
 const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 const debug = require('debug');
-// const fileUpload = require("express-fileupload");
+const fileUpload = require("express-fileupload");
 
 //this
 require("./models/User");
@@ -27,13 +29,12 @@ const csrfRouter = require('./routes/api/csrf');
 
 const keys = require("./config/keys");
 
-const app = express();
 
 app.use(logger("dev"));
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
-// app.use(fileUpload());
+app.use(fileUpload({ limit: '50mb' }));
 
 // Security Middleware
 if (!isProduction) {
