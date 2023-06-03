@@ -84,7 +84,7 @@ router.post(
 
     console.log(req.files);
     console.log(req.body);
-    res.json({ message: 'ok' });
+    res.json({ message: "ok" });
 
     // res.status(200).json({ message: 'File uploaded successfully' });
     //upload to aws s3
