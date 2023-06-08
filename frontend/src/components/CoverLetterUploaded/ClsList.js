@@ -1,12 +1,16 @@
 import ClsListItem from "./ClsListItem";
 
-function ClsList( {coverLetters, setSelectedLetter} ) {
-
+function ClsList({ coverLetters, setSelectedLetter }) {
   return (
     <>
-        {coverLetters.map((coverLetter) => {
-          return <ClsListItem coverLetter={coverLetter}setSelectedLetter={setSelectedLetter}></ClsListItem>;
-        })}
+      {coverLetters.map((coverLetter) => {
+        return (
+          <ClsListItem
+            coverLetter={coverLetter}
+            setSelectedLetter={setSelectedLetter}
+          ></ClsListItem>
+        );
+      })}
     </>
   );
 }
