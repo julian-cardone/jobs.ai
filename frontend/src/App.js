@@ -36,8 +36,8 @@ function App() {
 
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
-    if (selectedLetter){
-      dispatch(fetchCoverLetter(selectedLetter._id))
+    if (selectedLetter) {
+      dispatch(fetchCoverLetter(selectedLetter._id));
     }
   }, [dispatch, selectedLetter]);
 
