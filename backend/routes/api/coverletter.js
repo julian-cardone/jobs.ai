@@ -44,6 +44,8 @@ router.get("/uploaded/:userId", (req, res) => {
 
 //get coverletter with certain id
 router.get("/:coverLetterId", async (req, res) => {
+  //fix this... main branch has a correct version
+
   //find the cover letter in the db
   const coverLetter = await CoverLetter.findOne({
     _id: req.params.coverLetterId,
