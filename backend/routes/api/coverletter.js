@@ -46,6 +46,17 @@ router.get("/:coverLetterId", async (req, res) => {
     _id: req.params.coverLetterId,
   });
 
+  if (coverLetter) {
+    // fetch the encoding from the bucket
+    const { Body } = await s3Client.send(
+      new GetObjectCommand({ Bucket: keys.bucketname, Key: coverLetter.title })
+    );
+
+    const bodyContents = await streamToString(Body);
+
+    res.send({ uri: bodyContents });
+  }
+
   //method to parse the string from the bucket
   const streamToString = (stream) =>
     new Promise((resolve, reject) => {
@@ -54,15 +65,6 @@ router.get("/:coverLetterId", async (req, res) => {
       stream.on("error", reject);
       stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     });
-
-  // fetch the encoding from the bucket
-  const { Body } = await s3Client.send(
-    new GetObjectCommand({ Bucket: keys.bucketname, Key: coverLetter.title })
-  );
-
-  const bodyContents = await streamToString(Body);
-
-  res.send({ uri: bodyContents });
 });
 
 //cover letter upload route
@@ -77,10 +79,12 @@ router.post(
     }
 
     //upload to aws s3
-    const file = req.body.file.file.slice(28);
+    const file = req.body.file;
     const id = req.body.userId;
     const name = req.body.name;
     let fileName = generateId();
+
+    console.log(file, id, name);
 
     //check to see if name already exists, if so, produce a new one
     const cl = await CoverLetter.findOne({
