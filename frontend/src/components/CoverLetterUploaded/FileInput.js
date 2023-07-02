@@ -1,8 +1,9 @@
 import React from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
+// import * as pdfjsLib from 'pdfjs-dist';
+import * as pdfjsLib from 'pdfjs-dist/webpack';
 
 // pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.8.162/pdf.worker.js`;
-pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.js';
 
 
 function FileInput({ user, setSelectedLetter }) {
@@ -15,7 +16,24 @@ function FileInput({ user, setSelectedLetter }) {
   
         pdfjsLib.getDocument(arrayBuffer).promise.then(function (pdf) {
           // Access PDF document and perform parsing or other operations here
-          console.log('PDF loaded:', pdf);
+          pdf.getPage(1).then(function (page) {
+            // Use the page object here
+            page.getTextContent().then(function (textContent) {
+              // Use the text content here
+              textContent.items.forEach(function (textItem) {
+                // Access the text value
+                var text = textItem.str;
+            
+                // Access the position of the text
+                var left = textItem.transform[4];
+                var top = textItem.transform[5];
+            
+                // Process or display the text as needed
+                console.log('Text:', text);
+                console.log('Position:', left, top);
+              });
+            });
+          });
         });
       };
   
