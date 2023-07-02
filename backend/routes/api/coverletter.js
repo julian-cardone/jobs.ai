@@ -78,13 +78,12 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    //upload to aws s3
     const file = req.body.file;
     const id = req.body.userId;
     const name = req.body.name;
     let fileName = generateId();
 
-    console.log(file, id, name);
+    // console.log(file, id, name);
 
     //check to see if name already exists, if so, produce a new one
     const cl = await CoverLetter.findOne({
@@ -95,6 +94,7 @@ router.post(
       fileName = generateId();
     }
 
+    //upload to aws s3
     const bucketParams = {
       Bucket: keys.bucketname,
       Key: fileName,
