@@ -11,21 +11,21 @@ const validateCoverLetterInput = require("../../validation/coverletter");
 const generateId = require("../../../frontend/src/utils/generateId");
 
 //aws
-const {
-  S3Client,
-  PutObjectCommand,
-  GetObjectCommand,
-} = require("@aws-sdk/client-s3");
+// const {
+//   S3Client,
+//   PutObjectCommand,
+//   GetObjectCommand,
+// } = require("@aws-sdk/client-s3");
 
-const s3Config = {
-  region: "us-east-1",
-  credentials: {
-    accessKeyId: keys.awss3,
-    secretAccessKey: keys.awss3s,
-  },
-};
+// const s3Config = {
+//   region: "us-east-1",
+//   credentials: {
+//     accessKeyId: keys.awss3,
+//     secretAccessKey: keys.awss3s,
+//   },
+// };
 
-const s3Client = new S3Client(s3Config);
+// const s3Client = new S3Client(s3Config);
 
 // cl get all from user route
 router.get("/uploaded/:userId", (req, res) => {
@@ -46,25 +46,26 @@ router.get("/:coverLetterId", async (req, res) => {
     _id: req.params.coverLetterId,
   });
 
-  if (coverLetter) {
-    // fetch the encoding from the bucket
-    const { Body } = await s3Client.send(
-      new GetObjectCommand({ Bucket: keys.bucketname, Key: coverLetter.title })
-    );
+  //aws
+  // if (coverLetter) {
+  //   // fetch the encoding from the bucket
+  //   const { Body } = await s3Client.send(
+  //     new GetObjectCommand({ Bucket: keys.bucketname, Key: coverLetter.title })
+  //   );
 
-    const bodyContents = await streamToString(Body);
+  //   const bodyContents = await streamToString(Body);
 
-    res.send({ uri: bodyContents });
-  }
+  //   res.send({ uri: bodyContents });
+  // }
 
-  //method to parse the string from the bucket
-  const streamToString = (stream) =>
-    new Promise((resolve, reject) => {
-      const chunks = [];
-      stream.on("data", (chunk) => chunks.push(chunk));
-      stream.on("error", reject);
-      stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-    });
+  //aws: method to parse the string from the bucket
+  // const streamToString = (stream) =>
+  //   new Promise((resolve, reject) => {
+  //     const chunks = [];
+  //     stream.on("data", (chunk) => chunks.push(chunk));
+  //     stream.on("error", reject);
+  //     stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+  //   });
 });
 
 //cover letter upload route
@@ -95,20 +96,22 @@ router.post(
     }
     
     //upload to aws s3
-    const bucketParams = {
-      Bucket: keys.bucketname,
-      Key: fileName,
-      Body: file,
-    };
+    // const bucketParams = {
+    //   Bucket: keys.bucketname,
+    //   Key: fileName,
+    //   Body: file,
+    // };
 
     try {
-      const data = await s3Client.send(new PutObjectCommand(bucketParams));
+      // const data = await s3Client.send(new PutObjectCommand(bucketParams));
+      // fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`,
+      // ^^ this goes in the new cover letter, a key in the mongo document
 
       const newCoverletter = new CoverLetter({
         userId: id,
         title: fileName,
-        fileURL: `https://clgptfiles.s3.amazonaws.com/${fileName}`,
         name: name,
+        file: file
       });
 
       newCoverletter.save().then((coverletter) => res.json(coverletter));
