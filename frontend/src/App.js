@@ -29,8 +29,8 @@ function App() {
   const [selectedLetter, setSelectedLetter] = useState(localLetter);
 
   //This one is the fetched encoding from AWS
-  const selectedCoverLetter =
-    useSelector((state) => state.uploadedCoverLetters?.one) || null;
+  // const selectedCoverLetter =
+  //   useSelector((state) => state.uploadedCoverLetters?.one) || null;
 
   const user = useSelector((state) => state.session.user);
 
@@ -47,7 +47,7 @@ function App() {
         <Switch>
           <UserContext.Provider value={user}>
             <ClContext.Provider
-              value={[selectedLetter, setSelectedLetter, selectedCoverLetter]}
+              value={[selectedLetter, setSelectedLetter]}
             >
               <AuthRoute exact path="/" component={Home} />
               <Route exact path="/bs" component={BootstrapRef} />

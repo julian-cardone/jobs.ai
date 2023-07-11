@@ -1,19 +1,18 @@
 import { useContext } from "react";
 import { ClContext } from "../../App";
 import TextInput from "./TextInput";
+import Generate from "./Generate";
 
 function CoverLetterGenerate() {
-
   const clContext = useContext(ClContext);
   const name = clContext[0]?.name || "none";
+  const file = clContext[0]?.file || "";
 
   return (
     <>
       <div className="container-lg my-5 pt-5">
-        <div className="row mx-5 justify-content-between">
-          <div className="col-sm-6 col-md-6 col-lg-4"><p>Selected Cover Letter: {name}</p></div>
-          <div className="col-sm-6 col-md-6 col-lg-4">Input description<TextInput/></div>
-        </div>
+        <div className="row mx-5 justify-content-between"></div>
+        <Generate file={file} name={name} />
       </div>
     </>
   );

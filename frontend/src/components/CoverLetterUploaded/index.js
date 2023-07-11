@@ -15,7 +15,7 @@ function CoverLetterUploaded() {
   const user = useContext(UserContext);
   const selectedLetter = useContext(ClContext)[0]; //this fetched info from MongoDB
   const setSelectedLetter = useContext(ClContext)[1];
-  const selectedCoverLetter = useContext(ClContext)[2]; //this is fetched from mongo, originally from AWS prior to DB rework
+  // const selectedCoverLetter = useContext(ClContext)[2]; //this is fetched from mongo, originally from AWS prior to DB rework
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');
@@ -55,8 +55,8 @@ function CoverLetterUploaded() {
             id="preview"
             className="pt-4 px-0col-sm-7 col-md-8 col-lg-8 min-vh-100"
           >
-            {selectedCoverLetter && (
-              <Preview selectedCoverLetter={selectedCoverLetter}></Preview>
+            {selectedLetter && (
+              <Preview selectedLetter={selectedLetter}></Preview>
             )}
           </div>
         </div>
