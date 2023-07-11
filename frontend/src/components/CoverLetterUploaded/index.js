@@ -15,7 +15,7 @@ function CoverLetterUploaded() {
   const user = useContext(UserContext);
   const selectedLetter = useContext(ClContext)[0]; //this fetched info from MongoDB
   const setSelectedLetter = useContext(ClContext)[1];
-  const selectedCoverLetter = useContext(ClContext)[2]; //this is fetched from AWS
+  const selectedCoverLetter = useContext(ClContext)[2]; //this is fetched from mongo, originally from AWS prior to DB rework
 
   //downloads correctly, just doesn't display correctly
   //   var link = document.createElement('a');

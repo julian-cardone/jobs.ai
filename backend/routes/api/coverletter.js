@@ -46,6 +46,12 @@ router.get("/:coverLetterId", async (req, res) => {
     _id: req.params.coverLetterId,
   });
 
+  try{
+    res.send(coverLetter);
+  } catch (e){
+    res.send("no cover letter found")
+  }
+
   //aws
   // if (coverLetter) {
   //   // fetch the encoding from the bucket
@@ -82,6 +88,7 @@ router.post(
     const file = req.body.file;
     const id = req.body.userId;
     const name = req.body.name;
+    const encoding = req.body.encoding.slice(28);
     let fileName = generateId();
     
     // console.log(file, id, name);
@@ -111,7 +118,8 @@ router.post(
         userId: id,
         title: fileName,
         name: name,
-        file: file
+        file: file,
+        encoding: encoding
       });
 
       newCoverletter.save().then((coverletter) => res.json(coverletter));

@@ -1,5 +1,5 @@
 function Preview({ selectedCoverLetter }) {
-  let base64Data = selectedCoverLetter.uri;
+  let base64Data = selectedCoverLetter.encoding;
 
   //TODO: create an alternative showing, ex: steps
   return (

@@ -11,14 +11,21 @@ function FileInput({ user, setSelectedLetter }) {
     let file = e.target.files[0];
 
     let reader = new FileReader();
+    let encodingReader = new FileReader();
+    
     reader.onload = function (e) {
       const arrayBuffer = e.target.result;
+
+      //onload the encoding reader
+      encodingReader.onload = function(ev){
+        const encoding = ev.target.result;
 
       pdfjsLib.getDocument(arrayBuffer).promise.then(function (pdf) {
         // Access PDF document and perform parsing or other operations here
         pdf.getPage(1).then(function (page) {
           // Use the page object here
           page.getTextContent().then(function (textContent) {
+
             // Use the text content here
             jwtFetch("/api/coverletter/upload", {
               method: "POST",
@@ -27,6 +34,7 @@ function FileInput({ user, setSelectedLetter }) {
                 file: textContent,
                 userId: user._id,
                 name: file.name,
+                encoding: encoding
               }),
             })
               .then((res) => res.json())
@@ -42,6 +50,9 @@ function FileInput({ user, setSelectedLetter }) {
         });
       });
     };
+
+    encodingReader.readAsDataURL(file);
+  }
 
     reader.readAsArrayBuffer(file);
   };

@@ -9,7 +9,8 @@ const coverLetterSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true }, // foreign key for user document belongs to
   title: { type: String, required: true },
   name: {type: String, required: true},
-  file: {type: Array, required: true}
+  file: {type: Array, required: true},
+  encoding: {type: String, required: true}
 });
 
 // Define the collection and schema in the database
