@@ -3,7 +3,7 @@ const keys = require("../config/keys");
 
 async function generateChatCompletion(prompt) {
   const url = 'https://api.openai.com/v1/completions';
-  const model = "text-davinci-003";
+  const model = "";
 
   try {
     const response = await axios.post(url, {
