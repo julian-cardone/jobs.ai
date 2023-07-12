@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { ClContext } from "../../App";
-import TextInput from "./TextInput";
 import Generate from "./Generate";
 
 function CoverLetterGenerate() {

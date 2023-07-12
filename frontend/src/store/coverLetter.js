@@ -4,6 +4,7 @@ import { RECEIVE_USER_LOGOUT } from "./session";
 const RECEIVE_COVER_LETTER = "coverletters/RECEIVE_COVER_LETTER";
 const RECEIVE_COVER_LETTERS = "coverletters/RECEIVE_COVER_LETTERS";
 const RECEIVE_NEW_COVER_LETTER = "coverletters/RECEIVE_NEW_COVER_LETTER";
+const RECEIVE_GENERATED_COVER_LETTER = "coverletters/RECEIVE_GENERATED_COVER_LETTER";
 const REMOVE_COVER_LETTER = "coverletters/REMOVE_COVER_LETTER";
 const RECEIVE_COVER_LETTER_ERRORS = "coverletters/RECEIVE_COVER_LETTER_ERRORS";
 const CLEAR_COVER_LETTER_ERRORS = "coverletters/CLEAR_COVER_LETTER_ERRORS";
@@ -20,6 +21,11 @@ const receiveCoverLetters = (coverletters) => ({
 
 const receiveNewCoverLetter = (coverletter) => ({
   type: RECEIVE_NEW_COVER_LETTER,
+  coverletter,
+});
+
+const receiveGeneratedCoverLetter = (coverletter) => ({
+  type: RECEIVE_GENERATED_COVER_LETTER,
   coverletter,
 });
 
@@ -68,6 +74,24 @@ export const newCoverLetter = (data) => async (dispatch) => {
     }
   }
 };
+
+export const generateCoverLetter = (file) => async (dispatch) => {
+
+  try {
+    const res = await jwtFetch("/api/coverletter/upload", {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(file),
+    });
+    let coverLetter = await res.json();
+    dispatch(receiveGeneratedCoverLetter(coverLetter));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
 // export const fetchCoverLettersByUser = () => async dispatch => {
 //   try {
 //       const res = await jwtFetch('/api/events/')
@@ -157,6 +181,8 @@ const coverLetterReducer = (
       return { ...newState, one: action.coverletter, new: undefined };
     case RECEIVE_NEW_COVER_LETTER:
       return { ...newState, new: action.coverletter };
+    case RECEIVE_GENERATED_COVER_LETTER:
+      return { ...newState, generated: action.coverLetter};
     case REMOVE_COVER_LETTER: {
       delete newState[action.eventId];
       return newState;
