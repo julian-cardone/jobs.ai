@@ -9,6 +9,8 @@ const CoverLetter = require("../../models/CoverLetter");
 const validateCoverLetterInput = require("../../validation/coverletter");
 //generate id method
 const generateId = require("../../../frontend/src/utils/generateId");
+//openai
+const { generateChatCompletion } = require("../../openai/openai");
 
 //aws
 // const {
@@ -46,10 +48,10 @@ router.get("/:coverLetterId", async (req, res) => {
     _id: req.params.coverLetterId,
   });
 
-  try{
+  try {
     res.send(coverLetter);
-  } catch (e){
-    res.send("no cover letter found")
+  } catch (e) {
+    res.send("no cover letter found");
   }
 
   //aws
@@ -90,18 +92,18 @@ router.post(
     const name = req.body.name;
     const encoding = req.body.encoding.slice(28);
     let fileName = generateId();
-    
+
     // console.log(file, id, name);
-    
+
     //check to see if name already exists, if so, produce a new one
     const cl = await CoverLetter.findOne({
       $or: [{ title: fileName }],
     });
-    
+
     while (cl) {
       fileName = generateId();
     }
-    
+
     //upload to aws s3
     // const bucketParams = {
     //   Bucket: keys.bucketname,
@@ -119,7 +121,7 @@ router.post(
         title: fileName,
         name: name,
         file: file,
-        encoding: encoding
+        encoding: encoding,
       });
 
       newCoverletter.save().then((coverletter) => res.json(coverletter));
@@ -129,6 +131,35 @@ router.post(
   }
 );
 
+router.post(
+  "/generate",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const file = req.body.file[0];
+    const input = req.body.input;
+
+    const items = file.items;
+    // console.log(items);
+
+    //business logic for piecing together prompt
+    let clString = "";
+    for (x in items) {
+      clString += items[x].str;
+    }
+
+    //prompt gpt-4:
+    const prompt = `This is a cover letter that I wrote: take note of my experiences and skills:${clString}. Write a a cover letter based on the format of the cover letter that I wrote, referencing my writing style. Use this job description for company names and job-compatability:
+    ${input}. important: DO NOT include any experiences or skills that I did not mention in my initial cover letter.`;
+
+    try {
+      const completion = await generateChatCompletion(prompt);
+      console.log(completion);
+      // res.json({ completion });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to generate chat completion" });
+    }
+  }
+);
 //resume delete route
 // router.delete(
 //   "/:id",

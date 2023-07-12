@@ -75,20 +75,22 @@ export const newCoverLetter = (data) => async (dispatch) => {
   }
 };
 
-export const generateCoverLetter = (file) => async (dispatch) => {
+export const generateCoverLetter = (data) => async (dispatch) => {
 
   try {
-    const res = await jwtFetch("/api/coverletter/upload", {
+    const res = await jwtFetch("/api/coverletter/generate", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(file),
+      body: JSON.stringify(data),
     });
     let coverLetter = await res.json();
     dispatch(receiveGeneratedCoverLetter(coverLetter));
   } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      return dispatch(receiveErrors(resBody.errors));
-    }
+    console.log(err);
+    // const resBody = await err.json();
+    // if (resBody.statusCode === 400) {
+    //   return dispatch(receiveErrors(resBody.errors));
+    // }
   }
 };
 

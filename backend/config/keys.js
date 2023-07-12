@@ -5,5 +5,6 @@ module.exports = {
   awss3: process.env.AWS_ACCESS_KEY,
   awss3s: process.env.AWS_ACCESS_KEY_S,
   bucketname: process.env.AWS_S3_BUCKET_NAME,
+  openai: process.env.OPENAI_KEY,
   isProduction: process.env.NODE_ENV === "production",
 };

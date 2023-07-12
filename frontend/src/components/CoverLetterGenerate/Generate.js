@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { generateCoverLetter } from "../../store/coverLetter";
 
 function Generate({ file, name }) {
   const [input, setInput] = useState("");
+  const dispatch = useDispatch();
 
   const handleGenerate = (e) => {
     e.preventDefault();
-    console.log(file);
-    console.log(input);
+
+    dispatch(generateCoverLetter({file: file, input: input}));
   };
 
   const update = () => {
