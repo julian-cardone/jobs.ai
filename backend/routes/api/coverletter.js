@@ -148,11 +148,11 @@ router.post(
     }
 
     //prompt gpt-4:
-    const prompt = `This is a cover letter that I wrote: take note of my experiences and skills:${clString}. Write a a cover letter based on the format of the cover letter that I wrote, referencing my writing style. Use this job description for company names and job-compatability:
-    ${input}. important: DO NOT include any experiences or skills that I did not mention in my initial cover letter.`;
+    // const prompt = `This is a cover letter that I wrote: take note of my experiences and skills:${clString}. Write a a cover letter based on the format of the cover letter that I wrote, referencing my writing style. Use this job description for company names and job-compatability:
+    // ${input}. important: DO NOT include any experiences or skills that I did not mention in my initial cover letter.`;
 
     try {
-      const completion = await generateChatCompletion(prompt);
+      // const completion = await generateChatCompletion(prompt);
       console.log(completion);
       // res.json({ completion });
     } catch (error) {
